@@ -1,0 +1,1024 @@
+rule "测试1" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试2" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试3" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试4" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试5" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试6" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试7" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试8" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试9" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试10" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+
+
+rule "测试11" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试12" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试13" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试14" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试15" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试16" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试17" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试18" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试19" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试20" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+
+
+rule "测试21" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试22" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试23" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试24" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试25" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试26" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试27" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试28" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试29" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
+rule "测试30" "测试描述"  salience 0
+begin
+		// 重命名函数 测试; @name represent the rule name "测试"
+		Sout(@name)
+		// 普通函数 测试
+		Hello()
+		//结构提方法 测试
+		User.Say()
+		// if
+		if !(7 == User.GetNum(7)) || !(7 > 8)  {
+			//自定义变量 和 加法 测试
+			variable = "hello" + (" world" + "zeze")
+			// 加法 与 内建函数 测试 ; @name is just a string
+			User.Name = "hhh" + strconv.FormatInt(10, 10) + "@name"
+			//结构体属性、方法调用 和 除法 测试
+			User.Age = User.GetNum(8976) / 1000+ 3*(1+1)
+			//布尔值设置 测试
+			User.Male = false
+			//规则内自定义变量调用 测试
+			User.Print(variable)
+			//float测试	也支持科学计数法
+			f = 9.56
+			PrintReal(f)
+			//嵌套if-else测试
+			if false	{
+				Sout("嵌套if测试")
+			}else{
+				Sout("嵌套else测试")
+			}
+		}else{ //else
+			//字符串设置 测试
+			User.Name = "yyyy"
+		}
+end
