@@ -1,7 +1,6 @@
 package base
 
 import (
-	//"gengine/context"
 	"github.com/bilibili/gengine/context"
 	"reflect"
 )
@@ -21,6 +20,14 @@ func (as *Args) AcceptFunctionCall(funcCall *FunctionCall) error {
 func (as *Args) AcceptMethodCall(methodCall *MethodCall) error {
 	holder := &Arg{
 		MethodCall: methodCall,
+	}
+	as.ArgList = append(as.ArgList, holder)
+	return nil
+}
+
+func (as *Args) AcceptThreeLevelCall(threeLevelCall *ThreeLevelCall) error {
+	holder := &Arg{
+		ThreeLevelCall: threeLevelCall,
 	}
 	as.ArgList = append(as.ArgList, holder)
 	return nil

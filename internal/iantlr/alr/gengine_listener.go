@@ -1,4 +1,4 @@
-// Code generated from /Users/renyunyi/go_project/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
+// Code generated from /Users/renyunyi/go_project/github.com/bilibili/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
 
 package parser // gengine
 
@@ -82,6 +82,9 @@ type gengineListener interface {
 
 	// EnterMethodCall is called when entering the methodCall production.
 	EnterMethodCall(c *MethodCallContext)
+
+	// EnterThreeLevelCall is called when entering the threeLevelCall production.
+	EnterThreeLevelCall(c *ThreeLevelCallContext)
 
 	// EnterVariable is called when entering the variable production.
 	EnterVariable(c *VariableContext)
@@ -193,6 +196,9 @@ type gengineListener interface {
 
 	// ExitMethodCall is called when exiting the methodCall production.
 	ExitMethodCall(c *MethodCallContext)
+
+	// ExitThreeLevelCall is called when exiting the threeLevelCall production.
+	ExitThreeLevelCall(c *ThreeLevelCallContext)
 
 	// ExitVariable is called when exiting the variable production.
 	ExitVariable(c *VariableContext)

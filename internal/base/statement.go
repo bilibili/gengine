@@ -7,11 +7,12 @@ import (
 )
 
 type Statement struct {
-	IfStmt        *IfStmt
-	MethodCall    *MethodCall
-	FunctionCall  *FunctionCall
-	Assignment    *Assignment
-	ConcStatement *ConcStatement
+	IfStmt         *IfStmt
+	MethodCall     *MethodCall
+	FunctionCall   *FunctionCall
+	ThreeLevelCall *ThreeLevelCall
+	Assignment     *Assignment
+	ConcStatement  *ConcStatement
 }
 
 func (s *Statement) Evaluate(dc *context.DataContext, Vars map[string]reflect.Value) (reflect.Value, error, bool) {
@@ -40,6 +41,11 @@ func (s *Statement) Evaluate(dc *context.DataContext, Vars map[string]reflect.Va
 		return v, e, false
 	}
 
+	if s.ThreeLevelCall != nil {
+		v, e := s.ThreeLevelCall.Evaluate(dc, Vars)
+		return v, e, false
+	}
+
 	return reflect.ValueOf(nil), errors.New("Statement evaluate error!"), false
 }
 
@@ -57,6 +63,14 @@ func (s *Statement) AcceptMethodCall(methodCall *MethodCall) error {
 		return nil
 	}
 	return errors.New("MethodCall already defined! ")
+}
+
+func (s *Statement) AcceptThreeLevelCall(threeLevelCall *ThreeLevelCall) error {
+	if s.ThreeLevelCall == nil {
+		s.ThreeLevelCall = threeLevelCall
+		return nil
+	}
+	return errors.New("threeLevelCall already defined! ")
 }
 
 func (s *Statement) AcceptAssignment(assignment *Assignment) error {

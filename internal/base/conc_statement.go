@@ -9,9 +9,10 @@ import (
 )
 
 type ConcStatement struct {
-	Assignments   []*Assignment
-	FunctionCalls []*FunctionCall
-	MethodCalls   []*MethodCall
+	Assignments     []*Assignment
+	FunctionCalls   []*FunctionCall
+	MethodCalls     []*MethodCall
+	ThreeLevelCalls []*ThreeLevelCall
 }
 
 func (cs *ConcStatement) AcceptAssignment(assignment *Assignment) error {
@@ -29,11 +30,17 @@ func (cs *ConcStatement) AcceptMethodCall(methodCall *MethodCall) error {
 	return nil
 }
 
+func (cs *ConcStatement) AcceptThreeLevelCall(threeLevelCall *ThreeLevelCall) error {
+	cs.ThreeLevelCalls = append(cs.ThreeLevelCalls, threeLevelCall)
+	return nil
+}
+
 func (cs *ConcStatement) Evaluate(dc *context.DataContext, Vars map[string]reflect.Value) (reflect.Value, error) {
 
 	aLen := len(cs.Assignments)
 	fLen := len(cs.FunctionCalls)
 	mLen := len(cs.MethodCalls)
+	tLen := len(cs.ThreeLevelCalls)
 	l := aLen + fLen + mLen
 	if l <= 0 {
 		return reflect.ValueOf(nil), nil
@@ -51,6 +58,9 @@ func (cs *ConcStatement) Evaluate(dc *context.DataContext, Vars map[string]refle
 			return cs.MethodCalls[0].Evaluate(dc, Vars)
 		}
 
+		if tLen > 0 {
+			return cs.ThreeLevelCalls[0].Evaluate(dc, Vars)
+		}
 	} else {
 
 		var errLock sync.Mutex
@@ -95,6 +105,20 @@ func (cs *ConcStatement) Evaluate(dc *context.DataContext, Vars map[string]refle
 				wg.Done()
 			}()
 		}
+
+		for _, c := range cs.ThreeLevelCalls {
+			tlc := c
+			go func() {
+				_, e := tlc.Evaluate(dc, Vars)
+				if e != nil {
+					errLock.Lock()
+					eMsg = append(eMsg, fmt.Sprintf("%+v", e))
+					errLock.Unlock()
+				}
+				wg.Done()
+			}()
+		}
+
 		wg.Wait()
 
 		if len(eMsg) > 0 {

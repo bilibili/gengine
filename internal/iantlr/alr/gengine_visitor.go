@@ -1,4 +1,4 @@
-// Code generated from /Users/renyunyi/go_project/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
+// Code generated from /Users/renyunyi/go_project/github.com/bilibili/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
 
 package parser // gengine
 
@@ -81,6 +81,9 @@ type gengineVisitor interface {
 
 	// Visit a parse tree produced by gengineParser#methodCall.
 	VisitMethodCall(ctx *MethodCallContext) interface{}
+
+	// Visit a parse tree produced by gengineParser#threeLevelCall.
+	VisitThreeLevelCall(ctx *ThreeLevelCallContext) interface{}
 
 	// Visit a parse tree produced by gengineParser#variable.
 	VisitVariable(ctx *VariableContext) interface{}

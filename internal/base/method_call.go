@@ -20,7 +20,7 @@ func (mc *MethodCall) AcceptArgs(funcArg *Args) error {
 		mc.MethodArgs = funcArg
 		return nil
 	}
-	return errors.New("methodArgs set twice!")
+	return errors.New("methodArgs set twice! ")
 }
 
 func (mc *MethodCall) Evaluate(dc *context.DataContext, Vars map[string]reflect.Value) (mr reflect.Value, err error) {

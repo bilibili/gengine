@@ -1,4 +1,4 @@
-// Code generated from /Users/renyunyi/go_project/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
+// Code generated from /Users/renyunyi/go_project/github.com/bilibili/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
 
 package parser // gengine
 
@@ -105,6 +105,10 @@ func (v *BasegengineVisitor) VisitFunctionCall(ctx *FunctionCallContext) interfa
 }
 
 func (v *BasegengineVisitor) VisitMethodCall(ctx *MethodCallContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BasegengineVisitor) VisitThreeLevelCall(ctx *ThreeLevelCallContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

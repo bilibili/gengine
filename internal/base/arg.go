@@ -7,12 +7,13 @@ import (
 )
 
 type Arg struct {
-	Constant     *Constant
-	Variable     string
-	FunctionCall *FunctionCall
-	MethodCall   *MethodCall
-	MapVar       *MapVar
-	Expression   *Expression
+	Constant       *Constant
+	Variable       string
+	FunctionCall   *FunctionCall
+	MethodCall     *MethodCall
+	ThreeLevelCall *ThreeLevelCall
+	MapVar         *MapVar
+	Expression     *Expression
 }
 
 func (a *Arg) Evaluate(dc *context.DataContext, Vars map[string]reflect.Value) (reflect.Value, error) {
@@ -30,6 +31,10 @@ func (a *Arg) Evaluate(dc *context.DataContext, Vars map[string]reflect.Value) (
 
 	if a.MethodCall != nil {
 		return a.MethodCall.Evaluate(dc, Vars)
+	}
+
+	if a.ThreeLevelCall != nil {
+		return a.ThreeLevelCall.Evaluate(dc, Vars)
 	}
 
 	if a.MapVar != nil {

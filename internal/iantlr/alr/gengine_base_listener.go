@@ -1,4 +1,4 @@
-// Code generated from /Users/renyunyi/go_project/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
+// Code generated from /Users/renyunyi/go_project/github.com/bilibili/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
 
 package parser // gengine
 
@@ -170,6 +170,12 @@ func (s *BasegengineListener) EnterMethodCall(ctx *MethodCallContext) {}
 
 // ExitMethodCall is called when production methodCall is exited.
 func (s *BasegengineListener) ExitMethodCall(ctx *MethodCallContext) {}
+
+// EnterThreeLevelCall is called when production threeLevelCall is entered.
+func (s *BasegengineListener) EnterThreeLevelCall(ctx *ThreeLevelCallContext) {}
+
+// ExitThreeLevelCall is called when production threeLevelCall is exited.
+func (s *BasegengineListener) ExitThreeLevelCall(ctx *ThreeLevelCallContext) {}
 
 // EnterVariable is called when production variable is entered.
 func (s *BasegengineListener) EnterVariable(ctx *VariableContext) {}

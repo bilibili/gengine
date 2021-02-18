@@ -8,11 +8,12 @@ import (
 
 type ExpressionAtom struct {
 	SourceCode
-	Variable     string
-	Constant     *Constant
-	FunctionCall *FunctionCall
-	MethodCall   *MethodCall
-	MapVar       *MapVar
+	Variable       string
+	Constant       *Constant
+	FunctionCall   *FunctionCall
+	MethodCall     *MethodCall
+	ThreeLevelCall *ThreeLevelCall
+	MapVar         *MapVar
 }
 
 func (e *ExpressionAtom) AcceptVariable(name string) error {
@@ -47,6 +48,14 @@ func (e *ExpressionAtom) AcceptMethodCall(methodCall *MethodCall) error {
 	return errors.New("MethodCall already defined! ")
 }
 
+func (e *ExpressionAtom) AcceptThreeLevelCall(threeLevelCall *ThreeLevelCall) error {
+	if e.ThreeLevelCall == nil {
+		e.ThreeLevelCall = threeLevelCall
+		return nil
+	}
+	return errors.New("threeLevelCall already defined! ")
+}
+
 func (e *ExpressionAtom) AcceptMapVar(mapVar *MapVar) error {
 	if e.MapVar == nil {
 		e.MapVar = mapVar
@@ -66,6 +75,8 @@ func (e *ExpressionAtom) Evaluate(dc *context.DataContext, Vars map[string]refle
 		return e.MethodCall.Evaluate(dc, Vars)
 	} else if e.MapVar != nil {
 		return e.MapVar.Evaluate(dc, Vars)
+	} else if e.ThreeLevelCall != nil {
+		return e.ThreeLevelCall.Evaluate(dc, Vars)
 	}
 	//todo
 	return reflect.ValueOf(nil), errors.New("ExpressionAtom Evaluate error! ")

@@ -32,3 +32,4 @@ require github.com/bilibili/gengine v1.5.1
 
 ## 问题联系
 - 提issue
+- 或者加入QQ交流群1132683357

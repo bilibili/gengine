@@ -268,10 +268,10 @@ func (g *GengineParserListener) EnterMethodCall(ctx *parser.MethodCallContext) {
 	if len(g.ParseErrors) > 0 {
 		return
 	}
-	funcCall := &base.MethodCall{
+	methodCall := &base.MethodCall{
 		MethodName: ctx.DOTTEDNAME().GetText(),
 	}
-	g.Stack.Push(funcCall)
+	g.Stack.Push(methodCall)
 }
 
 func (g *GengineParserListener) ExitMethodCall(ctx *parser.MethodCallContext) {
@@ -287,6 +287,35 @@ func (g *GengineParserListener) ExitMethodCall(ctx *parser.MethodCallContext) {
 
 	holder := g.Stack.Peek().(base.MethodCallHolder)
 	err := holder.AcceptMethodCall(expr)
+	if err != nil {
+		g.AddError(err)
+	}
+}
+
+// EnterThreeLevelCall is called when production threeLevelCall is entered.
+func (g *GengineParserListener) EnterThreeLevelCall(ctx *parser.ThreeLevelCallContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	threeLevelCall := &base.ThreeLevelCall{
+		ThreeLevel : ctx.DOUBLEDOTTEDNAME().GetText(),
+	}
+	g.Stack.Push(threeLevelCall)
+}
+
+// ExitThreeLevelCall is called when production threeLevelCall is exited.
+func (g *GengineParserListener) ExitThreeLevelCall(ctx *parser.ThreeLevelCallContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	expr := g.Stack.Pop().(*base.ThreeLevelCall)
+	expr.Code = ctx.GetText()
+	expr.LineNum = ctx.GetStart().GetLine()
+	expr.Column = ctx.GetStart().GetColumn()
+	expr.LineStop = ctx.GetStop().GetColumn()
+
+	holder := g.Stack.Peek().(base.ThreeLevelCallHolder)
+	err := holder.AcceptThreeLevelCall(expr)
 	if err != nil {
 		g.AddError(err)
 	}

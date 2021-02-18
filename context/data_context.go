@@ -99,7 +99,7 @@ func (dc *DataContext) Get(key string) (reflect.Value, error) {
 }
 
 /**
-execute the injected functions
+execute the injected functions: a(..)
 function execute supply multi return values, but simplify ,just return one value
 */
 func (dc *DataContext) ExecFunc(Vars map[string]reflect.Value, funcName string, parameters []reflect.Value) (reflect.Value, error) {
@@ -129,26 +129,74 @@ func (dc *DataContext) ExecFunc(Vars map[string]reflect.Value, funcName string, 
 		}
 		return raw, nil
 	}
-	return reflect.ValueOf(nil), errors.New(fmt.Sprintf("NOT FOUND function \"%s\"", funcName))
+	return reflect.ValueOf(nil), errors.New(fmt.Sprintf("NOT FOUND function \"%s(..)\"", funcName))
 }
 
 /**
-execute the struct's functions
+execute the struct's functions: a.b(..)
 function execute supply multi return values, but simplify ,just return one value
 */
 func (dc *DataContext) ExecMethod(Vars map[string]reflect.Value, methodName string, args []reflect.Value) (reflect.Value, error) {
 	structAndMethod := strings.Split(methodName, ".")
-	//Dimit rule
+
 	if len(structAndMethod) != 2 {
-		return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not supported call, just support struct.method call, now length is %d", len(structAndMethod)))
+		return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not supported call \"%s(..)\", just support struct.method call, now length is %d", methodName, len(structAndMethod)))
 	}
 
+	a := structAndMethod[0]
+	b := structAndMethod[1]
+
 	dc.lockBase.Lock()
-	v, ok := dc.base[structAndMethod[0]]
+	v, ok := dc.base[a]
 	dc.lockBase.Unlock()
 
 	if ok {
-		res, err := core.InvokeFunction(v, structAndMethod[1], args)
+		res, err := core.InvokeFunction(v, b, args)
+		if err != nil {
+			return reflect.ValueOf(nil), err
+		}
+		return res, nil
+	}
+
+	dc.lockVars.Lock()
+	vv, vok := Vars[a]
+	dc.lockVars.Unlock()
+	if vok {
+		res, err := core.InvokeFunction(vv, b, args)
+		if err != nil {
+			return reflect.ValueOf(nil), err
+		}
+		return res, nil
+	}
+	return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not found method: \"%s(..)\"", methodName))
+}
+
+/**
+execute the struct's functions: a.b.c(..)
+function execute supply multi return values, but simplify ,just return one value
+*/
+func (dc *DataContext) ExecThreeLevel(Vars map[string]reflect.Value, threeLevelName string, args []reflect.Value) (reflect.Value, error) {
+	structAndMethod := strings.Split(threeLevelName, ".")
+
+	if len(structAndMethod) != 3 {
+		return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not supported call \"%s(..)\", just support struct.field.method call, now length is %d", threeLevelName, len(structAndMethod)))
+	}
+
+	a := structAndMethod[0]
+	b := structAndMethod[1]
+	c := structAndMethod[2]
+
+	dc.lockBase.Lock()
+	v, ok := dc.base[a]
+	dc.lockBase.Unlock()
+
+	if ok {
+		value, e := core.GetStructAttributeValue(v, b)
+		if e != nil {
+			return reflect.ValueOf(nil), e
+		}
+
+		res, err := core.InvokeFunction(value, c, args)
 		if err != nil {
 			return reflect.ValueOf(nil), err
 		}
@@ -159,13 +207,17 @@ func (dc *DataContext) ExecMethod(Vars map[string]reflect.Value, methodName stri
 	vv, vok := Vars[structAndMethod[0]]
 	dc.lockVars.Unlock()
 	if vok {
-		res, err := core.InvokeFunction(vv, structAndMethod[1], args)
+		value, e := core.GetStructAttributeValue(vv, b)
+		if e != nil {
+			return reflect.ValueOf(nil), e
+		}
+		res, err := core.InvokeFunction(value, c, args)
 		if err != nil {
 			return reflect.ValueOf(nil), err
 		}
 		return res, nil
 	}
-	return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not found method: %s", methodName))
+	return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not found method: \"%s(..)\"", threeLevelName))
 }
 
 /**
@@ -173,27 +225,61 @@ get the value user set
 */
 func (dc *DataContext) GetValue(Vars map[string]reflect.Value, variable string) (reflect.Value, error) {
 	if strings.Contains(variable, ".") {
-		//in dataContext
 		structAndField := strings.Split(variable, ".")
-		//Dimit rule
-		if len(structAndField) != 2 {
-			return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not supported Field, just support struct.field, now length is %d", len(structAndField)))
+		if len(structAndField) > 3 {
+			//a.b.c.d...
+			return reflect.ValueOf(nil), errors.New(fmt.Sprintf("Not supported Field:%s , just support struct.field or struct.field.field, now length is %d", variable, len(structAndField)))
 		}
 
-		dc.lockBase.Lock()
-		v, ok := dc.base[structAndField[0]]
-		dc.lockBase.Unlock()
+		//a.b
+		if len(structAndField) == 2 {
+			a := structAndField[0]
+			b := structAndField[1]
 
-		if ok {
-			return core.GetStructAttributeValue(v, structAndField[1])
+			dc.lockBase.Lock()
+			v, ok := dc.base[a]
+			dc.lockBase.Unlock()
+
+			if ok {
+				return core.GetStructAttributeValue(v, b)
+			}
+
+			//for return struct or struct ptr
+			dc.lockVars.Lock()
+			obj, ok := Vars[a]
+			dc.lockVars.Unlock()
+			if ok {
+				return core.GetStructAttributeValue(obj, b)
+			}
 		}
 
-		//for return struct or struct ptr
-		dc.lockVars.Lock()
-		obj, ok := Vars[structAndField[0]]
-		dc.lockVars.Unlock()
-		if ok {
-			return core.GetStructAttributeValue(obj, structAndField[1])
+		//a.b.c
+		if len(structAndField) == 3 {
+			a := structAndField[0]
+			b := structAndField[1]
+			c := structAndField[2]
+
+			dc.lockBase.Lock()
+			v, ok := dc.base[a]
+			dc.lockBase.Unlock()
+			if ok {
+				value, e := core.GetStructAttributeValue(v, b)
+				if e != nil {
+					return reflect.ValueOf(nil), e
+				}
+				return core.GetStructAttributeValue(value, c)
+			}
+
+			dc.lockVars.Lock()
+			obj, ok := Vars[a]
+			dc.lockVars.Unlock()
+			if ok {
+				value, e := core.GetStructAttributeValue(obj, b)
+				if e != nil {
+					return reflect.ValueOf(nil), e
+				}
+				return core.GetStructAttributeValue(value, b)
+			}
 		}
 	} else {
 		//user set
@@ -219,23 +305,58 @@ func (dc *DataContext) GetValue(Vars map[string]reflect.Value, variable string) 
 func (dc *DataContext) SetValue(Vars map[string]reflect.Value, variable string, newValue reflect.Value) error {
 	if strings.Contains(variable, ".") {
 		structAndField := strings.Split(variable, ".")
-		//Dimit rule
-		if len(structAndField) != 2 {
-			return errors.New(fmt.Sprintf("just support struct.field, now length is %d", len(structAndField)))
+
+		if len(structAndField) > 3 {
+			return errors.New(fmt.Sprintf("Not supported field \"%s(..)\"  just support struct.field or struct.field.field, now length is %d", variable, len(structAndField)))
 		}
 
-		dc.lockBase.Lock()
-		v, ok := dc.base[structAndField[0]]
-		dc.lockBase.Unlock()
+		if len(structAndField) == 2 {
+			a := structAndField[0]
+			b := structAndField[1]
 
-		if ok {
-			return core.SetAttributeValue(v, structAndField[1], newValue)
-		} else {
-			dc.lockVars.Lock()
-			vv, vok := Vars[structAndField[0]]
-			dc.lockVars.Unlock()
-			if vok {
-				return core.SetAttributeValue(vv, structAndField[1], newValue)
+			dc.lockBase.Lock()
+			v, ok := dc.base[a]
+			dc.lockBase.Unlock()
+
+			if ok {
+				return core.SetAttributeValue(v, b, newValue)
+			} else {
+				dc.lockVars.Lock()
+				vv, vok := Vars[a]
+				dc.lockVars.Unlock()
+				if vok {
+					return core.SetAttributeValue(vv, b, newValue)
+				}
+			}
+		}
+
+		if len(structAndField) == 3 {
+			a := structAndField[0]
+			b := structAndField[1]
+			c := structAndField[2]
+
+			dc.lockBase.Lock()
+			v, ok := dc.base[a]
+			dc.lockBase.Unlock()
+
+			if ok {
+				value, e := core.GetStructAttributeValue(v, b)
+				if e != nil {
+					return e
+				}
+				return core.SetAttributeValue(value, c, newValue)
+			} else {
+				println("a,b,c", a, b, c)
+				dc.lockVars.Lock()
+				vv, vok := Vars[a]
+				dc.lockVars.Unlock()
+				if vok {
+					value, e := core.GetStructAttributeValue(vv, b)
+					if e != nil {
+						return e
+					}
+					return core.SetAttributeValue(value, c, newValue)
+				}
 			}
 		}
 	} else {

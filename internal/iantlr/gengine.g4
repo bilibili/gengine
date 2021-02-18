@@ -9,9 +9,9 @@ salience : SALIENCE integer;
 ruleContent : statements;
 statements: statement* returnStmt? ;
 
-statement : ifStmt | methodCall  | functionCall | assignment | concStatement ;
+statement : ifStmt | functionCall | methodCall  | threeLevelCall | assignment | concStatement ;
 
-concStatement : CONC LR_BRACE ( methodCall | functionCall | assignment )* RR_BRACE;
+concStatement : CONC LR_BRACE ( functionCall | methodCall | threeLevelCall | assignment )* RR_BRACE;
 
 expression : mathExpression
             | expression comparisonOperator expression
@@ -27,8 +27,9 @@ mathExpression : mathExpression  mathMdOperator mathExpression
                ;
 
 expressionAtom
-    : methodCall
-    | functionCall
+    : functionCall
+    | methodCall
+    | threeLevelCall
     | constant
     | mapVar
     | variable
@@ -56,7 +57,7 @@ constant
     ;
 
 functionArgs
-    : (constant | variable  | functionCall | methodCall | mapVar | expression)  (','(constant | variable | functionCall | methodCall | mapVar | expression))*
+    : (constant | variable  | functionCall | methodCall | threeLevelCall | mapVar | expression)  (','(constant | variable | functionCall | methodCall | threeLevelCall | mapVar | expression))*
     ;
 
 integer : MINUS? INT;
@@ -71,7 +72,9 @@ functionCall : SIMPLENAME LR_BRACKET functionArgs? RR_BRACKET;
 
 methodCall : DOTTEDNAME LR_BRACKET functionArgs? RR_BRACKET;
 
-variable :  SIMPLENAME | DOTTEDNAME ;
+threeLevelCall : DOUBLEDOTTEDNAME LR_BRACKET functionArgs? RR_BRACKET;
+
+variable :  SIMPLENAME | DOTTEDNAME | DOUBLEDOTTEDNAME;
 
 mathPmOperator : PLUS | MINUS ;
 
@@ -171,7 +174,8 @@ LR_BRACKET                  : '(';
 RR_BRACKET                  : ')';
 DOT                         : '.' ;
 DQUOTA_STRING               : '"' ( '\\'. | '""' | ~('"'| '\\') )* '"';
-DOTTEDNAME                  : SIMPLENAME  DOT SIMPLENAME  ;
+DOTTEDNAME                  : SIMPLENAME DOT SIMPLENAME  ;
+DOUBLEDOTTEDNAME            : SIMPLENAME DOT SIMPLENAME DOT SIMPLENAME;
 REAL_LITERAL                : (DEC_DIGIT+)? '.' DEC_DIGIT+
                             | DEC_DIGIT+ '.' EXPONENT_NUM_PART
                             | (DEC_DIGIT+)? '.' (DEC_DIGIT+ EXPONENT_NUM_PART)
