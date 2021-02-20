@@ -7,6 +7,7 @@
 
 # Gengine
 - [English document](README.md)
+- 或者加入QQ交流群1132683357(内有官方微信交流群二维码)
 
 ## 基于golang的规则引擎
 - **Gengine**是一款基于AST(Abstract Syntax Tree)和golang语言实现的规则引擎(动态化加载框架)。能够让你在golang这种静态语言上，在不停服务的情况下实现动态加载与配置规则。
@@ -32,4 +33,3 @@ require github.com/bilibili/gengine v1.5.1
 
 ## 问题联系
 - 提issue
-- 或者加入QQ交流群1132683357
