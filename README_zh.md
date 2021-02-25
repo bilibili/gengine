@@ -20,7 +20,7 @@
 
 ## 官方文档
 - 中文文档 https://github.com/bilibili/gengine/wiki
-- English doc: https://rencalo770.github.io/gengine_en
+- English doc: https://rencalo770.github.io/gengine_en/#/introduce
 
 ## 支持的执行模式
  ![avatar](exe_model.jpg)
