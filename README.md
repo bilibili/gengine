@@ -14,8 +14,8 @@
 - it is also a high performance engine, support many execute-model and rules pool for business, it is easy to use in distribute system. 
 
 ## github wiki
+- English doc: https://rencalo770.github.io/gengine_en
 - 中文文档 https://github.com/bilibili/gengine/wiki
-
 
 ## supported the execute model of rules
  ![avatar](exe_model.jpg)
