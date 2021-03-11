@@ -3,7 +3,7 @@
 </div>
 
 [![license](https://img.shields.io/badge/license-BSD-blue.svg)]()
-[![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://github.com/bilibili/gengine/wiki) 
+[![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://github.com/bilibili/gengine/wiki)
 
 # Gengine
 - [English document](README.md)
@@ -29,7 +29,7 @@
 - 建议使用最新版本
 - go mod 或者 go vendor, go mod 引入:
 ```go
-require github.com/bilibili/gengine v1.5.1
+require github.com/bilibili/gengine v1.5.3
 ```
 
 ## 问题联系
