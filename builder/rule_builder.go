@@ -44,18 +44,24 @@ func (builder *RuleBuilder) BuildRuleFromString(ruleString string) error {
 
 	in := antlr.NewInputStream(ruleString)
 	lexer := parser.NewgengineLexer(in)
+	lexerErrListener := iparser.NewGengineErrorListener()
+	lexer.AddErrorListener(lexerErrListener)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	listener := iparser.NewGengineParserListener(kc)
 
 	psr := parser.NewgengineParser(stream)
 	psr.BuildParseTrees = true
 	//grammar listener
-	errListener := iparser.NewGengineErrorListener()
-	psr.AddErrorListener(errListener)
+	grammarErrListener := iparser.NewGengineErrorListener()
+	psr.AddErrorListener(grammarErrListener)
 	antlr.ParseTreeWalkerDefault.Walk(listener, psr.Primary())
 
-	if len(errListener.GrammarErrors) > 0 {
-		return errors.New(fmt.Sprintf("%+v", errListener.GrammarErrors))
+	if len(lexerErrListener.GrammarErrors) > 0 {
+		return errors.New(fmt.Sprintf("%+v", lexerErrListener.GrammarErrors))
+	}
+
+	if len(grammarErrListener.GrammarErrors) > 0 {
+		return errors.New(fmt.Sprintf("%+v", grammarErrListener.GrammarErrors))
 	}
 
 	if len(listener.ParseErrors) > 0 {
@@ -96,6 +102,8 @@ func (builder *RuleBuilder) BuildRuleWithIncremental(ruleString string) error {
 
 	in := antlr.NewInputStream(ruleString)
 	lexer := parser.NewgengineLexer(in)
+	lexerErrListener := iparser.NewGengineErrorListener()
+	lexer.AddErrorListener(lexerErrListener)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 
 	kc := base.NewKnowledgeContext()
@@ -104,12 +112,16 @@ func (builder *RuleBuilder) BuildRuleWithIncremental(ruleString string) error {
 	psr := parser.NewgengineParser(stream)
 	psr.BuildParseTrees = true
 
-	errListener := iparser.NewGengineErrorListener()
-	psr.AddErrorListener(errListener)
+	grammarErrListener := iparser.NewGengineErrorListener()
+	psr.AddErrorListener(grammarErrListener)
 	antlr.ParseTreeWalkerDefault.Walk(listener, psr.Primary())
 
-	if len(errListener.GrammarErrors) > 0 {
-		return errors.New(fmt.Sprintf("%+v", errListener.GrammarErrors))
+	if len(lexerErrListener.GrammarErrors) > 0 {
+		return errors.New(fmt.Sprintf("%+v", lexerErrListener.GrammarErrors))
+	}
+
+	if len(grammarErrListener.GrammarErrors) > 0 {
+		return errors.New(fmt.Sprintf("%+v", grammarErrListener.GrammarErrors))
 	}
 
 	if len(listener.ParseErrors) > 0 {
