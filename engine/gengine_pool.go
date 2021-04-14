@@ -1137,6 +1137,31 @@ func (gp *GenginePool) ExecuteSelectedNConcurrentMConcurrent(nSort, mConcurrent 
 	return e, returnResultMap
 }
 
+// see gengine.go ExecuteDAGModel
+func (gp *GenginePool) ExecuteDAGModel(dag [][]string, data map[string]interface{}) (error, map[string]interface{}) {
+
+	returnResultMap := make(map[string]interface{})
+	//rules has bean cleared
+	if gp.clear {
+		//no data to execute rule
+		return nil, returnResultMap
+	}
+
+	gw, e := gp.prepareWithMultiInput(data)
+	if e != nil {
+		return e, returnResultMap
+	}
+	//release resource
+	defer func() {
+		gw.clearInjected(getKeys(data)...)
+		gp.putGengineLocked(gw)
+	}()
+
+	e = gw.gengine.ExecuteDAGModel(gw.rulebuilder, dag)
+	returnResultMap, _ = gw.gengine.GetRulesResultMap()
+	return e, returnResultMap
+}
+
 func getKeys(data map[string]interface{}) []string {
 	var keys []string
 	for k := range data {

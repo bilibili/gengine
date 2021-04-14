@@ -40,6 +40,12 @@ sort execute model
 when b is true it means when there are many rules， if one rule execute error，continue to execute rules after the occur error rule
 */
 func (g *Gengine) Execute(rb *builder.RuleBuilder, b bool) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
 	g.returnResult = make(map[string]interface{})
 
 	if len(rb.Kc.SortRules) == 0 {
@@ -81,6 +87,11 @@ where some high priority rules execute finished, you don't want to execute to th
 */
 func (g *Gengine) ExecuteWithStopTagDirect(rb *builder.RuleBuilder, b bool, sTag *Stag) error {
 
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
 	g.returnResult = make(map[string]interface{})
 
 	if len(rb.Kc.SortRules) == 0 {
@@ -118,6 +129,11 @@ func (g *Gengine) ExecuteWithStopTagDirect(rb *builder.RuleBuilder, b bool, sTag
  in this mode, it will not consider the priority  and not consider err control
 */
 func (g *Gengine) ExecuteConcurrent(rb *builder.RuleBuilder) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -160,6 +176,11 @@ func (g *Gengine) ExecuteConcurrent(rb *builder.RuleBuilder) error {
  first to execute the most high priority rule，then concurrently to execute last rules without consider the priority
 */
 func (g *Gengine) ExecuteMixModel(rb *builder.RuleBuilder) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -222,6 +243,11 @@ where the first rule execute finished, you don't want to execute to the last rul
 */
 func (g *Gengine) ExecuteMixModelWithStopTagDirect(rb *builder.RuleBuilder, sTag *Stag) error {
 
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
 	g.returnResult = make(map[string]interface{})
 
 	if len(rb.Kc.SortRules) == 0 {
@@ -274,6 +300,11 @@ user can choose specified name rules to run with sort, and it will continue to e
 */
 func (g *Gengine) ExecuteSelectedRules(rb *builder.RuleBuilder, names []string) error {
 
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
 	g.returnResult = make(map[string]interface{})
 
 	if len(rb.Kc.RuleEntities) == 0 {
@@ -323,6 +354,11 @@ user can choose specified name rules to run with sort
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 */
 func (g *Gengine) ExecuteSelectedRulesWithControl(rb *builder.RuleBuilder, b bool, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -377,6 +413,11 @@ user can choose specified name rules to run with sort
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 */
 func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTag(rb *builder.RuleBuilder, b bool, sTag *Stag, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -434,6 +475,11 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTag(rb *builder.RuleBuil
 user can choose specified name rules to concurrent run
 */
 func (g *Gengine) ExecuteSelectedRulesConcurrent(rb *builder.RuleBuilder, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -499,6 +545,11 @@ func (g *Gengine) ExecuteSelectedRulesConcurrent(rb *builder.RuleBuilder, names 
 user can choose specified name rules to run with mix model
 */
 func (g *Gengine) ExecuteSelectedRulesMixModel(rb *builder.RuleBuilder, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -587,6 +638,10 @@ func (g *Gengine) ExecuteSelectedRulesMixModel(rb *builder.RuleBuilder, names []
 
 //inverse mix model
 func (g *Gengine) ExecuteInverseMixModel(rb *builder.RuleBuilder) error {
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -644,6 +699,10 @@ func (g *Gengine) ExecuteInverseMixModel(rb *builder.RuleBuilder) error {
 
 //inverse mix model with user selected
 func (g *Gengine) ExecuteSelectedRulesInverseMixModel(rb *builder.RuleBuilder, names []string) error {
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -719,6 +778,11 @@ func (g *Gengine) ExecuteSelectedRulesInverseMixModel(rb *builder.RuleBuilder, n
 // 3.then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteNSortMConcurrent(nSort, mConcurrent int, rb *builder.RuleBuilder, b bool) error {
 
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
 	g.returnResult = make(map[string]interface{})
 
 	//strictly params check
@@ -786,6 +850,10 @@ func (g *Gengine) ExecuteNSortMConcurrent(nSort, mConcurrent int, rb *builder.Ru
 //    if b == true, means continue, if false, means stop and return
 // 3. then m piece rules to sort execute based on priority
 func (g *Gengine) ExecuteNConcurrentMSort(nConcurrent, mSort int, rb *builder.RuleBuilder, b bool) error {
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -860,6 +928,11 @@ func (g *Gengine) ExecuteNConcurrentMSort(nConcurrent, mSort int, rb *builder.Ru
 //    if b == true,   means continue, if false, means stop and return
 // 3. then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteNConcurrentMConcurrent(nConcurrent, mConcurrent int, rb *builder.RuleBuilder, b bool) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -940,6 +1013,11 @@ func (g *Gengine) ExecuteNConcurrentMConcurrent(nConcurrent, mConcurrent int, rb
 //   if b == true, means continue, if false, means stop and return
 // 3.then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteSelectedNSortMConcurrent(nSort, mConcurrent int, rb *builder.RuleBuilder, b bool, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -1028,6 +1106,11 @@ func (g *Gengine) ExecuteSelectedNSortMConcurrent(nSort, mConcurrent int, rb *bu
 //    if b == true, means continue, if false, means stop and return
 // 3. then m piece rules to sort execute based on priority
 func (g *Gengine) ExecuteSelectedNConcurrentMSort(nConcurrent, mSort int, rb *builder.RuleBuilder, b bool, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
 
 	g.returnResult = make(map[string]interface{})
 
@@ -1123,6 +1206,11 @@ func (g *Gengine) ExecuteSelectedNConcurrentMSort(nConcurrent, mSort int, rb *bu
 // 3. then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteSelectedNConcurrentMConcurrent(nConcurrent, mConcurrent int, rb *builder.RuleBuilder, b bool, names []string) error {
 
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
 	g.returnResult = make(map[string]interface{})
 
 	//strictly params check
@@ -1212,5 +1300,63 @@ func (g *Gengine) ExecuteSelectedNConcurrentMConcurrent(nConcurrent, mConcurrent
 		return errors.New(fmt.Sprintf("%+v", eMsg))
 	}
 
+	return nil
+}
+
+
+//DAG model
+func (g *Gengine) ExecuteDAGModel(rb *builder.RuleBuilder, dag [][]string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
+	//check params
+	if len(dag) == 0 || len(dag[0]) == 0{
+		return nil
+	}
+
+	var errLock sync.Mutex
+	var eMsg []string
+
+	//col
+	for i := 0; i < len(dag); i ++ {
+		//row
+		for j := 0; j < len(dag[i]); j ++ {
+			var rules []*base.RuleEntity
+
+			//filter the rules which do not exist.
+			if rule, ok := rb.Kc.RuleEntities[dag[i][j]];ok{
+				rules = append(rules, rule)
+			}
+
+			//并发执行
+			if len(rules) > 0 {
+				var mwg sync.WaitGroup
+				mwg.Add(len(rules))
+				for _, r := range rules {
+					rr := r
+					go func() {
+						v, e, bx := rr.Execute(rb.Dc)
+						if bx {
+							g.addResult(rr.RuleName, v)
+						}
+						if e != nil {
+							errLock.Lock()
+							eMsg = append(eMsg, fmt.Sprintf("rule: \"%s\" executed, error:\n %+v ", rr.RuleName, e))
+							errLock.Unlock()
+						}
+						mwg.Done()
+					}()
+				}
+				mwg.Wait()
+			}
+
+			if len(eMsg) > 0 {
+				return errors.New(fmt.Sprintf("%+v", eMsg))
+			}
+		}
+	}
 	return nil
 }
