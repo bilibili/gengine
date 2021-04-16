@@ -28,7 +28,7 @@
 - please use the newest version!
 - go mod or go vendo, go mod:
 ```go
-require github.com/bilibili/gengine v1.5.4
+require github.com/bilibili/gengine v1.5.5
 ```
 
 ## Question Connection
