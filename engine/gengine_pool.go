@@ -3,13 +3,13 @@ package engine
 import (
 	"errors"
 	"fmt"
+	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/bilibili/gengine/builder"
 	"github.com/bilibili/gengine/context"
 	"github.com/bilibili/gengine/internal/base"
 	parser "github.com/bilibili/gengine/internal/iantlr/alr"
 	"github.com/bilibili/gengine/internal/iparser"
 	"github.com/bilibili/gengine/internal/tool"
-	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"sync"
 
 	"github.com/google/martian/log"

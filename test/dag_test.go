@@ -96,29 +96,22 @@ end
 `
 
 func makeDAG() [][]string {
+	//base
 	names := make([][]string, 5)
 
+	//第1列(层)
 	namesCol1 := make([]string, 3)
 	namesCol1[0] = "1"
 	namesCol1[1] = "2"
 	namesCol1[2] = "3"
+	names[1] = namesCol1
 
-	/*	namesCol1[3] = "4"
-		namesCol1[4] = "5"
-		namesCol1[5] = "6"
-		namesCol1[6] = "7"
-		namesCol1[7] = "8"
-		namesCol1[8] = "9"
-		namesCol1[9] = "10"
-		namesCol1[10] = "11"
-		namesCol1[11] = "12"
-	*/
-	names[0] = namesCol1
-
+	//第2列(层)
 	namesCol2 := make([]string, 1)
 	namesCol2[0] = "4"
-	names[1] = namesCol2
+	names[2] = namesCol2
 
+	//第3列(层)
 	namesCol3 := make([]string, 5)
 	namesCol3[0] = "5"
 	namesCol3[1] = "6"
@@ -127,16 +120,16 @@ func makeDAG() [][]string {
 	//add the rules not exist
 	namesCol3[3] = "100"
 	namesCol3[4] = "200"
-	names[2] = namesCol3
+	names[3] = namesCol3
 
-
+	//第4列(层)
 	namesCol4 := make([]string, 5)
 	namesCol4[0] = "8"
 	namesCol4[1] = "9"
 	namesCol4[2] = "10"
 	namesCol4[3] = "11"
 	namesCol4[4] = "12"
-	names[3] = namesCol4
+	names[4] = namesCol4
 	return names
 }
 

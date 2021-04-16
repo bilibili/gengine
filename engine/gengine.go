@@ -1303,7 +1303,6 @@ func (g *Gengine) ExecuteSelectedNConcurrentMConcurrent(nConcurrent, mConcurrent
 	return nil
 }
 
-
 //DAG model
 func (g *Gengine) ExecuteDAGModel(rb *builder.RuleBuilder, dag [][]string) error {
 
@@ -1313,50 +1312,49 @@ func (g *Gengine) ExecuteDAGModel(rb *builder.RuleBuilder, dag [][]string) error
 	}
 
 	//check params
-	if len(dag) == 0 || len(dag[0]) == 0{
+	if len(dag) == 0 {
 		return nil
 	}
 
 	var errLock sync.Mutex
 	var eMsg []string
 
-	//col
-	for i := 0; i < len(dag); i ++ {
-		//row
-		for j := 0; j < len(dag[i]); j ++ {
-			var rules []*base.RuleEntity
-
+	//row
+	for i := 0; i < len(dag); i++ {
+		//col
+		var rules []*base.RuleEntity
+		for j := 0; j < len(dag[i]); j++ {
 			//filter the rules which do not exist.
-			if rule, ok := rb.Kc.RuleEntities[dag[i][j]];ok{
+			if rule, ok := rb.Kc.RuleEntities[dag[i][j]]; ok {
 				rules = append(rules, rule)
 			}
-
-			//并发执行
-			if len(rules) > 0 {
-				var mwg sync.WaitGroup
-				mwg.Add(len(rules))
-				for _, r := range rules {
-					rr := r
-					go func() {
-						v, e, bx := rr.Execute(rb.Dc)
-						if bx {
-							g.addResult(rr.RuleName, v)
-						}
-						if e != nil {
-							errLock.Lock()
-							eMsg = append(eMsg, fmt.Sprintf("rule: \"%s\" executed, error:\n %+v ", rr.RuleName, e))
-							errLock.Unlock()
-						}
-						mwg.Done()
-					}()
-				}
-				mwg.Wait()
-			}
-
-			if len(eMsg) > 0 {
-				return errors.New(fmt.Sprintf("%+v", eMsg))
-			}
 		}
+
+		//并发执行
+		if len(rules) > 0 {
+			var mwg sync.WaitGroup
+			mwg.Add(len(rules))
+			for _, r := range rules {
+				rr := r
+				go func() {
+					v, e, bx := rr.Execute(rb.Dc)
+					if bx {
+						g.addResult(rr.RuleName, v)
+					}
+					if e != nil {
+						errLock.Lock()
+						eMsg = append(eMsg, fmt.Sprintf("rule: \"%s\" executed, error:\n %+v ", rr.RuleName, e))
+						errLock.Unlock()
+					}
+					mwg.Done()
+				}()
+			}
+			mwg.Wait()
+		}
+		if len(eMsg) > 0 {
+			return errors.New(fmt.Sprintf("%+v", eMsg))
+		}
+
 	}
 	return nil
 }
