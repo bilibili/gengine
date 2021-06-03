@@ -409,6 +409,59 @@ func (g *Gengine) ExecuteSelectedRulesWithControl(rb *builder.RuleBuilder, b boo
 }
 
 /**
+user can choose specified name rules to run with sort by names
+b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
+*/
+func (g *Gengine) ExecuteSelectedRulesWithControlSortByNames(rb *builder.RuleBuilder, b bool, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
+	g.returnResult = make(map[string]interface{})
+
+	if len(rb.Kc.SortRules) == 0 {
+		return errors.New("no rule has been injected into engine! ")
+	}
+
+	var rules []*base.RuleEntity
+	for _, name := range names {
+		if ruleEntity, ok := rb.Kc.RuleEntities[name]; ok {
+			rr := ruleEntity
+			rules = append(rules, rr)
+		} else {
+			log.Errorf("no such rule named: \"%s\"", name)
+		}
+	}
+
+	if len(rules) < 1 {
+		return errors.New(fmt.Sprintf("no rule has been selected, names=%+v", names))
+	}
+
+	var eMsg []string
+	for _, rule := range rules {
+		rr := rule
+		v, e, bx := rr.Execute(rb.Dc)
+		if bx {
+			g.addResult(rr.RuleName, v)
+		}
+		if e != nil {
+			if b {
+				eMsg = append(eMsg, fmt.Sprintf("rule: \"%s\" executed, error:\n %+v ", rr.RuleName, e))
+			} else {
+				return errors.New(fmt.Sprintf("rule: \"%s\" executed, error:\n %+v ", rr.RuleName, e))
+			}
+		}
+	}
+
+	if len(eMsg) > 0 {
+		return errors.New(fmt.Sprintf("%+v", eMsg))
+	}
+	return nil
+}
+
+/**
 user can choose specified name rules to run with sort
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 */
@@ -443,6 +496,63 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTag(rb *builder.RuleBuil
 		sort.SliceStable(rules, func(i, j int) bool {
 			return rules[i].Salience > rules[j].Salience
 		})
+	}
+
+	var eMsg []string
+	for _, rule := range rules {
+		rr := rule
+		v, e, bx := rr.Execute(rb.Dc)
+		if bx {
+			g.addResult(rr.RuleName, v)
+		}
+		if e != nil {
+			if b {
+				eMsg = append(eMsg, fmt.Sprintf("rule: \"%s\" executed, error:\n %+v ", rr.RuleName, e))
+			} else {
+				return errors.New(fmt.Sprintf("rule: \"%s\" executed, error:\n %+v ", rr.RuleName, e))
+			}
+		}
+
+		if sTag.StopTag {
+			break
+		}
+	}
+
+	if len(eMsg) > 0 {
+		return errors.New(fmt.Sprintf("%+v", eMsg))
+	}
+	return nil
+}
+
+/**
+user can choose specified name rules to run with sort by names
+b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
+*/
+func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagSortByNames(rb *builder.RuleBuilder, b bool, sTag *Stag, names []string) error {
+
+	//check rb
+	if rb == nil {
+		return errors.New("ruleBuilder is nil")
+	}
+
+	g.returnResult = make(map[string]interface{})
+
+	if len(rb.Kc.SortRules) == 0 {
+		return errors.New("no rule has been injected into engine! ")
+	}
+
+	var rules []*base.RuleEntity
+	for _, name := range names {
+		if ruleEntity, ok := rb.Kc.RuleEntities[name]; ok {
+			rr := ruleEntity
+			rules = append(rules, rr)
+		} else {
+			log.Errorf("no such rule named: \"%s\"", name)
+		}
+	}
+
+	if len(rules) < 1 {
+		return errors.New(fmt.Sprintf("no rule has been selected, names=%+v", names))
 	}
 
 	var eMsg []string

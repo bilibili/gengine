@@ -106,4 +106,16 @@ func Test_execute(t *testing.T) {
 
 	println("===================10================")
 
+	e11 := gengine.ExecuteSelectedRulesWithControlSortByNames(ruleBuilder, true, []string{"3", "2", "1", "4"})
+	if e11 != nil {
+		panic(fmt.Sprintf("ExecuteSelectedRulesWithControlSortByName:%+v", e11))
+	}
+	println("===================11================")
+
+	sTag3 := &engine.Stag{StopTag: false}
+	e12 := gengine.ExecuteSelectedRulesWithControlAndStopTagSortByNames(ruleBuilder, true, sTag3, []string{"2", "1", "4", "3"})
+	if e12 != nil {
+		panic(fmt.Sprintf("ExecuteSelectedRulesWithControlAndStopTagSortByNames:%+v", e12))
+	}
+	println("===================12================")
 }
