@@ -409,10 +409,10 @@ func (g *Gengine) ExecuteSelectedRulesWithControl(rb *builder.RuleBuilder, b boo
 }
 
 /**
-user can choose specified name rules to run with sort by names
+user can choose specified name rules to run with given sorted name
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 */
-func (g *Gengine) ExecuteSelectedRulesWithControlSortByNames(rb *builder.RuleBuilder, b bool, names []string) error {
+func (g *Gengine) ExecuteSelectedRulesWithControlAsGivenSortedName(rb *builder.RuleBuilder, b bool, names []string) error {
 
 	//check rb
 	if rb == nil {
@@ -525,10 +525,10 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTag(rb *builder.RuleBuil
 }
 
 /**
-user can choose specified name rules to run with sort by names
+user can choose specified name rules to run with given sorted name
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 */
-func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagSortByNames(rb *builder.RuleBuilder, b bool, sTag *Stag, names []string) error {
+func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(rb *builder.RuleBuilder, b bool, sTag *Stag, names []string) error {
 
 	//check rb
 	if rb == nil {

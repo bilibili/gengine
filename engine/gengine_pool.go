@@ -864,8 +864,8 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControl(data map[string]interface
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesWithControlSortByNames
-func (gp *GenginePool) ExecuteSelectedRulesWithControlSortByNames(data map[string]interface{}, b bool, names []string) (error, map[string]interface{}) {
+//see gengine.go ExecuteSelectedRulesWithControlAsGivenSortedName
+func (gp *GenginePool) ExecuteSelectedRulesWithControlAsGivenSortedName(data map[string]interface{}, b bool, names []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
 	if gp.clear {
@@ -883,7 +883,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlSortByNames(data map[strin
 		gp.putGengineLocked(gw)
 	}()
 
-	e = gw.gengine.ExecuteSelectedRulesWithControlSortByNames(gw.rulebuilder, b, names)
+	e = gw.gengine.ExecuteSelectedRulesWithControlAsGivenSortedName(gw.rulebuilder, b, names)
 	returnResultMap, _ = gw.gengine.GetRulesResultMap()
 	return e, returnResultMap
 }
@@ -912,8 +912,8 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTag(data map[string
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesWithControlAndStopTagSortByNames
-func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagSortByNames(data map[string]interface{}, b bool, sTag *Stag, names []string) (error, map[string]interface{}) {
+//see gengine.go ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName
+func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(data map[string]interface{}, b bool, sTag *Stag, names []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
 	if gp.clear {
@@ -931,7 +931,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagSortByNames(data
 		gp.putGengineLocked(gw)
 	}()
 
-	e = gw.gengine.ExecuteSelectedRulesWithControlAndStopTagSortByNames(gw.rulebuilder, b, sTag, names)
+	e = gw.gengine.ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(gw.rulebuilder, b, sTag, names)
 	returnResultMap, _ = gw.gengine.GetRulesResultMap()
 	return e, returnResultMap
 }
