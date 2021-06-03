@@ -411,8 +411,10 @@ func (g *Gengine) ExecuteSelectedRulesWithControl(rb *builder.RuleBuilder, b boo
 /**
 user can choose specified name rules to run with given sorted name
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
+
+gengine won't sort the rules by the salience, and the executed order will  based on the user given sorted names
 */
-func (g *Gengine) ExecuteSelectedRulesWithControlAsGivenSortedName(rb *builder.RuleBuilder, b bool, names []string) error {
+func (g *Gengine) ExecuteSelectedRulesWithControlAsGivenSortedName(rb *builder.RuleBuilder, b bool, sortedNames []string) error {
 
 	//check rb
 	if rb == nil {
@@ -426,7 +428,7 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAsGivenSortedName(rb *builder.R
 	}
 
 	var rules []*base.RuleEntity
-	for _, name := range names {
+	for _, name := range sortedNames {
 		if ruleEntity, ok := rb.Kc.RuleEntities[name]; ok {
 			rr := ruleEntity
 			rules = append(rules, rr)
@@ -436,7 +438,7 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAsGivenSortedName(rb *builder.R
 	}
 
 	if len(rules) < 1 {
-		return errors.New(fmt.Sprintf("no rule has been selected, names=%+v", names))
+		return errors.New(fmt.Sprintf("no rule has been selected, names=%+v", sortedNames))
 	}
 
 	var eMsg []string
@@ -527,8 +529,10 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTag(rb *builder.RuleBuil
 /**
 user can choose specified name rules to run with given sorted name
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
+
+gengine won't sort the rules by the salience, and the executed order will  based on the user given sorted names
 */
-func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(rb *builder.RuleBuilder, b bool, sTag *Stag, names []string) error {
+func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(rb *builder.RuleBuilder, b bool, sTag *Stag, sortedNames []string) error {
 
 	//check rb
 	if rb == nil {
@@ -542,7 +546,7 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(rb 
 	}
 
 	var rules []*base.RuleEntity
-	for _, name := range names {
+	for _, name := range sortedNames {
 		if ruleEntity, ok := rb.Kc.RuleEntities[name]; ok {
 			rr := ruleEntity
 			rules = append(rules, rr)
@@ -552,7 +556,7 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(rb 
 	}
 
 	if len(rules) < 1 {
-		return errors.New(fmt.Sprintf("no rule has been selected, names=%+v", names))
+		return errors.New(fmt.Sprintf("no rule has been selected, names=%+v", sortedNames))
 	}
 
 	var eMsg []string

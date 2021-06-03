@@ -865,7 +865,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControl(data map[string]interface
 }
 
 //see gengine.go ExecuteSelectedRulesWithControlAsGivenSortedName
-func (gp *GenginePool) ExecuteSelectedRulesWithControlAsGivenSortedName(data map[string]interface{}, b bool, names []string) (error, map[string]interface{}) {
+func (gp *GenginePool) ExecuteSelectedRulesWithControlAsGivenSortedName(data map[string]interface{}, b bool, sortedNames []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
 	if gp.clear {
@@ -883,7 +883,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAsGivenSortedName(data map
 		gp.putGengineLocked(gw)
 	}()
 
-	e = gw.gengine.ExecuteSelectedRulesWithControlAsGivenSortedName(gw.rulebuilder, b, names)
+	e = gw.gengine.ExecuteSelectedRulesWithControlAsGivenSortedName(gw.rulebuilder, b, sortedNames)
 	returnResultMap, _ = gw.gengine.GetRulesResultMap()
 	return e, returnResultMap
 }
@@ -913,7 +913,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTag(data map[string
 }
 
 //see gengine.go ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName
-func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(data map[string]interface{}, b bool, sTag *Stag, names []string) (error, map[string]interface{}) {
+func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(data map[string]interface{}, b bool, sTag *Stag, sortedNames []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
 	if gp.clear {
@@ -931,7 +931,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedNam
 		gp.putGengineLocked(gw)
 	}()
 
-	e = gw.gengine.ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(gw.rulebuilder, b, sTag, names)
+	e = gw.gengine.ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(gw.rulebuilder, b, sTag, sortedNames)
 	returnResultMap, _ = gw.gengine.GetRulesResultMap()
 	return e, returnResultMap
 }
