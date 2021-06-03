@@ -29,7 +29,7 @@
 - 建议使用最新版本
 - go mod 或者 go vendor, go mod 引入:
 ```go
-require github.com/bilibili/gengine v1.5.5
+require github.com/bilibili/gengine v1.5.6
 ```
 
 ## 问题联系
