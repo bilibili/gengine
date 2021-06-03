@@ -864,6 +864,30 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControl(data map[string]interface
 	return e, returnResultMap
 }
 
+//see gengine.go ExecuteSelectedRulesWithControlAsGivenSortedName
+func (gp *GenginePool) ExecuteSelectedRulesWithControlAsGivenSortedName(data map[string]interface{}, b bool, names []string) (error, map[string]interface{}) {
+	returnResultMap := make(map[string]interface{})
+	//rules has bean cleared
+	if gp.clear {
+		//no data to execute rule
+		return nil, returnResultMap
+	}
+
+	gw, e := gp.prepareWithMultiInput(data)
+	if e != nil {
+		return e, returnResultMap
+	}
+	//release resource
+	defer func() {
+		gw.clearInjected(getKeys(data)...)
+		gp.putGengineLocked(gw)
+	}()
+
+	e = gw.gengine.ExecuteSelectedRulesWithControlAsGivenSortedName(gw.rulebuilder, b, names)
+	returnResultMap, _ = gw.gengine.GetRulesResultMap()
+	return e, returnResultMap
+}
+
 //see gengine.go ExecuteSelectedRulesWithControlAndStopTag
 func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTag(data map[string]interface{}, b bool, sTag *Stag, names []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
@@ -884,6 +908,30 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTag(data map[string
 	}()
 
 	e = gw.gengine.ExecuteSelectedRulesWithControlAndStopTag(gw.rulebuilder, b, sTag, names)
+	returnResultMap, _ = gw.gengine.GetRulesResultMap()
+	return e, returnResultMap
+}
+
+//see gengine.go ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName
+func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(data map[string]interface{}, b bool, sTag *Stag, names []string) (error, map[string]interface{}) {
+	returnResultMap := make(map[string]interface{})
+	//rules has bean cleared
+	if gp.clear {
+		//no data to execute rule
+		return nil, returnResultMap
+	}
+
+	gw, e := gp.prepareWithMultiInput(data)
+	if e != nil {
+		return e, returnResultMap
+	}
+	//release resource
+	defer func() {
+		gw.clearInjected(getKeys(data)...)
+		gp.putGengineLocked(gw)
+	}()
+
+	e = gw.gengine.ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(gw.rulebuilder, b, sTag, names)
 	returnResultMap, _ = gw.gengine.GetRulesResultMap()
 	return e, returnResultMap
 }
