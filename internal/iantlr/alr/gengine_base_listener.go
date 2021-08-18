@@ -1,4 +1,4 @@
-// Code generated from /Users/renyunyi/go_project/github.com/bilibili/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
+// Code generated from ../gengine.g4 by ANTLR 4.9. DO NOT EDIT.
 
 package parser // gengine
 
@@ -123,6 +123,30 @@ func (s *BasegengineListener) EnterElseStmt(ctx *ElseStmtContext) {}
 // ExitElseStmt is called when production elseStmt is exited.
 func (s *BasegengineListener) ExitElseStmt(ctx *ElseStmtContext) {}
 
+// EnterForStmt is called when production forStmt is entered.
+func (s *BasegengineListener) EnterForStmt(ctx *ForStmtContext) {}
+
+// ExitForStmt is called when production forStmt is exited.
+func (s *BasegengineListener) ExitForStmt(ctx *ForStmtContext) {}
+
+// EnterBreakStmt is called when production breakStmt is entered.
+func (s *BasegengineListener) EnterBreakStmt(ctx *BreakStmtContext) {}
+
+// ExitBreakStmt is called when production breakStmt is exited.
+func (s *BasegengineListener) ExitBreakStmt(ctx *BreakStmtContext) {}
+
+// EnterForRangeStmt is called when production forRangeStmt is entered.
+func (s *BasegengineListener) EnterForRangeStmt(ctx *ForRangeStmtContext) {}
+
+// ExitForRangeStmt is called when production forRangeStmt is exited.
+func (s *BasegengineListener) ExitForRangeStmt(ctx *ForRangeStmtContext) {}
+
+// EnterContinueStmt is called when production continueStmt is entered.
+func (s *BasegengineListener) EnterContinueStmt(ctx *ContinueStmtContext) {}
+
+// ExitContinueStmt is called when production continueStmt is exited.
+func (s *BasegengineListener) ExitContinueStmt(ctx *ContinueStmtContext) {}
+
 // EnterConstant is called when production constant is entered.
 func (s *BasegengineListener) EnterConstant(ctx *ConstantContext) {}
 
@@ -212,6 +236,12 @@ func (s *BasegengineListener) EnterAssignOperator(ctx *AssignOperatorContext) {}
 
 // ExitAssignOperator is called when production assignOperator is exited.
 func (s *BasegengineListener) ExitAssignOperator(ctx *AssignOperatorContext) {}
+
+// EnterRangeOperator is called when production rangeOperator is entered.
+func (s *BasegengineListener) EnterRangeOperator(ctx *RangeOperatorContext) {}
+
+// ExitRangeOperator is called when production rangeOperator is exited.
+func (s *BasegengineListener) ExitRangeOperator(ctx *RangeOperatorContext) {}
 
 // EnterNotOperator is called when production notOperator is entered.
 func (s *BasegengineListener) EnterNotOperator(ctx *NotOperatorContext) {}

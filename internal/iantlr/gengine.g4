@@ -9,7 +9,7 @@ salience : SALIENCE integer;
 ruleContent : statements;
 statements: statement* returnStmt? ;
 
-statement : ifStmt | functionCall | methodCall  | threeLevelCall | assignment | concStatement ;
+statement : ifStmt | functionCall | methodCall  | threeLevelCall | assignment | concStatement  | forStmt | breakStmt |forRangeStmt | continueStmt;
 
 concStatement : CONC LR_BRACE ( functionCall | methodCall | threeLevelCall | assignment )* RR_BRACE;
 
@@ -44,6 +44,14 @@ ifStmt : IF expression LR_BRACE statements RR_BRACE elseIfStmt*  elseStmt? ;
 elseIfStmt : ELSE IF expression LR_BRACE statements RR_BRACE;
 
 elseStmt : ELSE LR_BRACE statements RR_BRACE;
+
+forStmt : FOR assignment SEMICOLON expression SEMICOLON assignment LR_BRACE statements RR_BRACE;
+
+breakStmt: BREAK;
+
+forRangeStmt : FORRANGE variable rangeOperator variable LR_BRACE statements RR_BRACE;
+
+continueStmt:  CONTINUE;
 
 constant
     : booleanLiteral
@@ -85,6 +93,8 @@ comparisonOperator : GT | LT | GTE | LTE | EQUALS | NOTEQUALS ;
 logicalOperator : AND | OR ;
 
 assignOperator: ASSIGN | SET | PLUSEQUAL | MINUSEQUAL | MULTIEQUAL | DIVEQUAL ;
+
+rangeOperator: ASSIGN;
 
 notOperator: NOT;
 
@@ -133,6 +143,10 @@ CONC                        : C O N C;
 IF                          : I F;
 ELSE                        : E L S E;
 RETURN                      : R E T U R N;
+FOR                         : F O R;
+BREAK                       : B R E A K;
+FORRANGE                    : F O R R A N G E;
+CONTINUE                    : C O N T I N U E;
 
 TRUE                        : T R U E ;
 FALSE                       : F A L S E ;

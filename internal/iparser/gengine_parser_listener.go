@@ -3,11 +3,12 @@ package iparser
 import (
 	"errors"
 	"fmt"
-	"github.com/bilibili/gengine/internal/base"
-	parser "github.com/bilibili/gengine/internal/iantlr/alr"
 	"reflect"
 	"strconv"
 	"strings"
+
+	"github.com/bilibili/gengine/internal/base"
+	parser "github.com/bilibili/gengine/internal/iantlr/alr"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/golang-collections/collections/stack"
@@ -298,7 +299,7 @@ func (g *GengineParserListener) EnterThreeLevelCall(ctx *parser.ThreeLevelCallCo
 		return
 	}
 	threeLevelCall := &base.ThreeLevelCall{
-		ThreeLevel : ctx.DOUBLEDOTTEDNAME().GetText(),
+		ThreeLevel: ctx.DOUBLEDOTTEDNAME().GetText(),
 	}
 	g.Stack.Push(threeLevelCall)
 }
@@ -524,6 +525,82 @@ func (g *GengineParserListener) ExitIfStmt(ctx *parser.IfStmtContext) {
 	ifStmt := g.Stack.Pop().(*base.IfStmt)
 	statement := g.Stack.Peek().(*base.Statement)
 	statement.IfStmt = ifStmt
+}
+
+// 语法树进入for节点
+func (g *GengineParserListener) EnterForStmt(ctx *parser.ForStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	forStmt := &base.ForStmt{}
+	g.Stack.Push(forStmt)
+}
+
+// 语法树退出for节点
+func (g *GengineParserListener) ExitForStmt(ctx *parser.ForStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	forStmt := g.Stack.Pop().(*base.ForStmt)
+	statement := g.Stack.Peek().(*base.Statement)
+	statement.ForStmt = forStmt
+}
+
+// 语法树进入forRange节点
+func (g *GengineParserListener) EnterForRangeStmt(ctx *parser.ForRangeStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	forRangeStmt := &base.ForRangeStmt{}
+	g.Stack.Push(forRangeStmt)
+}
+
+// 语法树退出forRange节点
+func (g *GengineParserListener) ExitForRangeStmt(ctx *parser.ForRangeStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	forRangeStmt := g.Stack.Pop().(*base.ForRangeStmt)
+	statement := g.Stack.Peek().(*base.Statement)
+	statement.ForRangeStmt = forRangeStmt
+}
+
+// 语法树进入brak节点
+func (g *GengineParserListener) EnterBreakStmt(ctx *parser.BreakStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	breakStmt := &base.BreakStmt{}
+	g.Stack.Push(breakStmt)
+}
+
+// 语法树退出brak节点
+func (g *GengineParserListener) ExitBreakStmt(ctx *parser.BreakStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	breakStmt := g.Stack.Pop().(*base.BreakStmt)
+	statement := g.Stack.Peek().(*base.Statement)
+	statement.BreakStmt = breakStmt
+}
+
+// 语法树进入continue节点
+func (g *GengineParserListener) EnterContinueStmt(ctx *parser.ContinueStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	continueStmt := &base.ContinueStmt{}
+	g.Stack.Push(continueStmt)
+}
+
+// 语法树退出continue节点
+func (g *GengineParserListener) ExitContinueStmt(ctx *parser.ContinueStmtContext) {
+	if len(g.ParseErrors) > 0 {
+		return
+	}
+	continueStmt := g.Stack.Pop().(*base.ContinueStmt)
+	statement := g.Stack.Peek().(*base.Statement)
+	statement.ContinueStmt = continueStmt
 }
 
 func (g *GengineParserListener) EnterStatement(ctx *parser.StatementContext) {
