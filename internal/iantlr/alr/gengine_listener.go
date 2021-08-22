@@ -1,4 +1,4 @@
-// Code generated from /Users/renyunyi/go_project/github.com/bilibili/gengine/internal/iantlr/gengine.g4 by ANTLR 4.9. DO NOT EDIT.
+// Code generated from ../gengine.g4 by ANTLR 4.9. DO NOT EDIT.
 
 package parser // gengine
 
@@ -59,6 +59,18 @@ type gengineListener interface {
 	// EnterElseStmt is called when entering the elseStmt production.
 	EnterElseStmt(c *ElseStmtContext)
 
+	// EnterForStmt is called when entering the forStmt production.
+	EnterForStmt(c *ForStmtContext)
+
+	// EnterBreakStmt is called when entering the breakStmt production.
+	EnterBreakStmt(c *BreakStmtContext)
+
+	// EnterForRangeStmt is called when entering the forRangeStmt production.
+	EnterForRangeStmt(c *ForRangeStmtContext)
+
+	// EnterContinueStmt is called when entering the continueStmt production.
+	EnterContinueStmt(c *ContinueStmtContext)
+
 	// EnterConstant is called when entering the constant production.
 	EnterConstant(c *ConstantContext)
 
@@ -103,6 +115,9 @@ type gengineListener interface {
 
 	// EnterAssignOperator is called when entering the assignOperator production.
 	EnterAssignOperator(c *AssignOperatorContext)
+
+	// EnterRangeOperator is called when entering the rangeOperator production.
+	EnterRangeOperator(c *RangeOperatorContext)
 
 	// EnterNotOperator is called when entering the notOperator production.
 	EnterNotOperator(c *NotOperatorContext)
@@ -173,6 +188,18 @@ type gengineListener interface {
 	// ExitElseStmt is called when exiting the elseStmt production.
 	ExitElseStmt(c *ElseStmtContext)
 
+	// ExitForStmt is called when exiting the forStmt production.
+	ExitForStmt(c *ForStmtContext)
+
+	// ExitBreakStmt is called when exiting the breakStmt production.
+	ExitBreakStmt(c *BreakStmtContext)
+
+	// ExitForRangeStmt is called when exiting the forRangeStmt production.
+	ExitForRangeStmt(c *ForRangeStmtContext)
+
+	// ExitContinueStmt is called when exiting the continueStmt production.
+	ExitContinueStmt(c *ContinueStmtContext)
+
 	// ExitConstant is called when exiting the constant production.
 	ExitConstant(c *ConstantContext)
 
@@ -217,6 +244,9 @@ type gengineListener interface {
 
 	// ExitAssignOperator is called when exiting the assignOperator production.
 	ExitAssignOperator(c *AssignOperatorContext)
+
+	// ExitRangeOperator is called when exiting the rangeOperator production.
+	ExitRangeOperator(c *RangeOperatorContext)
 
 	// ExitNotOperator is called when exiting the notOperator production.
 	ExitNotOperator(c *NotOperatorContext)

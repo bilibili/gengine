@@ -2,8 +2,9 @@ package base
 
 import (
 	"errors"
-	"github.com/bilibili/gengine/context"
 	"reflect"
+
+	"github.com/bilibili/gengine/context"
 )
 
 type Statement struct {
@@ -13,6 +14,10 @@ type Statement struct {
 	ThreeLevelCall *ThreeLevelCall
 	Assignment     *Assignment
 	ConcStatement  *ConcStatement
+	ForStmt        *ForStmt      // for语句
+	BreakStmt      *BreakStmt    // break语句
+	ForRangeStmt   *ForRangeStmt // forRange语句
+	ContinueStmt   *ContinueStmt // continue语句
 }
 
 func (s *Statement) Evaluate(dc *context.DataContext, Vars map[string]reflect.Value) (reflect.Value, error, bool) {
@@ -44,6 +49,22 @@ func (s *Statement) Evaluate(dc *context.DataContext, Vars map[string]reflect.Va
 	if s.ThreeLevelCall != nil {
 		v, e := s.ThreeLevelCall.Evaluate(dc, Vars)
 		return v, e, false
+	}
+
+	if s.ForStmt != nil {
+		return s.ForStmt.Evaluate(dc, Vars)
+	}
+
+	if s.ForRangeStmt != nil {
+		return s.ForRangeStmt.Evaluate(dc, Vars)
+	}
+
+	if s.BreakStmt != nil {
+		return s.BreakStmt.Evaluate(dc, Vars)
+	}
+
+	if s.ContinueStmt != nil {
+		return s.ContinueStmt.Evaluate(dc, Vars)
 	}
 
 	return reflect.ValueOf(nil), errors.New("Statement evaluate error!"), false

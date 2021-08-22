@@ -3,13 +3,14 @@ package context
 import (
 	"errors"
 	"fmt"
-	"github.com/bilibili/gengine/internal/core"
 	"path"
 	"path/filepath"
 	"plugin"
 	"reflect"
 	"strings"
 	"sync"
+
+	"github.com/bilibili/gengine/internal/core"
 )
 
 type DataContext struct {
@@ -278,7 +279,7 @@ func (dc *DataContext) GetValue(Vars map[string]reflect.Value, variable string) 
 				if e != nil {
 					return reflect.ValueOf(nil), e
 				}
-				return core.GetStructAttributeValue(value, b)
+				return core.GetStructAttributeValue(value, c)
 			}
 		}
 	} else {
