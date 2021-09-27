@@ -468,13 +468,17 @@ func (g *GengineParserListener) ExitStringLiteral(ctx *parser.StringLiteralConte
 	}
 	holder := g.Stack.Peek().(base.StringHolder)
 	text := ctx.GetText()
-	txt := strings.Trim(text, "\"")
+	txt, err := strconv.Unquote(text)
+	if err != nil {
+		g.AddError(fmt.Errorf("unquote string error:%v, %s", err, text))
+		return
+	}
 	if reflect.TypeOf(holder).String() == "*base.MapVar" {
 		if txt == "" {
 			g.AddError(errors.New("MAP key should not be null string"))
 		}
 	}
-	err := holder.AcceptString(txt)
+	err = holder.AcceptString(txt)
 	if err != nil {
 		g.AddError(err)
 	}
