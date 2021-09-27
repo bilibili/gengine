@@ -133,6 +133,16 @@ fragment X                  : [xX] ;
 fragment Y                  : [yY] ;
 fragment Z                  : [zZ] ;
 fragment EXPONENT_NUM_PART  : ('E'| 'e') '-'? DEC_DIGIT+;
+fragment HEX_DIGIT          : [0-9a-fA-F];
+fragment OCTAL_DIGIT        : [0-7];
+
+fragment ESCAPED_VALUE
+    : '\\' ('u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+           | 'U' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+           | [abfnrtv\\'"]
+           | OCTAL_DIGIT OCTAL_DIGIT OCTAL_DIGIT
+           | 'x' HEX_DIGIT HEX_DIGIT)
+    ;
 
 NIL                         : N I L;
 RULE                        : R U L E  ;
@@ -187,7 +197,7 @@ RR_BRACE                    : '}';
 LR_BRACKET                  : '(';
 RR_BRACKET                  : ')';
 DOT                         : '.' ;
-DQUOTA_STRING               : '"' ( '\\'. | '""' | ~('"'| '\\') )* '"';
+DQUOTA_STRING               : '"' (~["\\\r\n] | ESCAPED_VALUE)*  '"';
 DOTTEDNAME                  : SIMPLENAME DOT SIMPLENAME  ;
 DOUBLEDOTTEDNAME            : SIMPLENAME DOT SIMPLENAME DOT SIMPLENAME;
 REAL_LITERAL                : (DEC_DIGIT+)? '.' DEC_DIGIT+
