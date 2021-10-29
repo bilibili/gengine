@@ -3,8 +3,9 @@ package base
 import (
 	"errors"
 	"fmt"
-	"github.com/bilibili/gengine/context"
 	"reflect"
+
+	"github.com/bilibili/gengine/context"
 )
 
 var TypeMap = map[string]string{
@@ -62,6 +63,36 @@ func (e *Expression) AcceptExpression(expression *Expression) error {
 	return errors.New("Expression already set twice! ")
 }
 
+func (e *Expression) EvaluateLogic(dc *context.DataContext, Vars map[string]reflect.Value) (reflect.Value, error) {
+	lv, err := e.ExpressionLeft.Evaluate(dc, Vars)
+	if err != nil {
+		return reflect.ValueOf(nil), err
+	}
+	if lv.Kind() != reflect.Bool {
+		return reflect.ValueOf(nil), errors.New(fmt.Sprintf("line %d, column %d, code: %s, left val: %s type err\n", e.LineNum, e.Column, e.Code, lv.Kind().String()))
+	}
+	//短路逻辑
+	if e.LogicalOperator == "&&" && !lv.Bool() {
+		return reflect.ValueOf(false), nil
+	}
+	if e.LogicalOperator == "||" && lv.Bool() {
+		return reflect.ValueOf(true), nil
+	}
+
+	rv, err := e.ExpressionRight.Evaluate(dc, Vars)
+	if err != nil {
+		return reflect.ValueOf(nil), err
+	}
+	if rv.Kind() != reflect.Bool {
+		return reflect.ValueOf(nil), errors.New(fmt.Sprintf("line %d, column %d, code: %s, right val: %s type err\n", e.LineNum, e.Column, e.Code, rv.Kind().String()))
+	}
+
+	if e.LogicalOperator == "&&" {
+		return reflect.ValueOf(lv.Bool() && rv.Bool()), nil
+	}
+	return reflect.ValueOf(lv.Bool() || rv.Bool()), nil
+}
+
 func (e *Expression) Evaluate(dc *context.DataContext, Vars map[string]reflect.Value) (reflect.Value, error) {
 
 	//priority to calculate single value
@@ -96,31 +127,11 @@ func (e *Expression) Evaluate(dc *context.DataContext, Vars map[string]reflect.V
 
 	// && ||  just only to be used between boolean
 	if e.LogicalOperator != "" {
-
-		lv, err := e.ExpressionLeft.Evaluate(dc, Vars)
+		logic, err := e.EvaluateLogic(dc, Vars)
 		if err != nil {
 			return reflect.ValueOf(nil), err
 		}
-
-		rv, err := e.ExpressionRight.Evaluate(dc, Vars)
-		if err != nil {
-			return reflect.ValueOf(nil), err
-		}
-
-		//
-		flv := lv //reflect.ValueOf(lv)
-		frv := rv //reflect.ValueOf(rv)
-
-		if lv.Kind() == reflect.Bool && rv.Kind() == reflect.Bool {
-			if e.LogicalOperator == "&&" {
-				b = reflect.ValueOf(flv.Bool() && frv.Bool())
-			}
-			if e.LogicalOperator == "||" {
-				b = reflect.ValueOf(flv.Bool() || frv.Bool())
-			}
-		} else {
-			return reflect.ValueOf(nil), errors.New(fmt.Sprintf("line %d, column %d, code: %s, || or && can't be used between %s and %s:\n", e.LineNum, e.Column, e.Code, flv.Kind().String(), frv.Kind().String()))
-		}
+		b = logic
 	}
 
 	// == > < != >= <=  just only to be used between number and number, string and string, bool and bool
