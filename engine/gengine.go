@@ -1425,6 +1425,8 @@ func (g *Gengine) ExecuteDAGModel(rb *builder.RuleBuilder, dag [][]string) error
 		return errors.New("ruleBuilder is nil")
 	}
 
+	g.returnResult = make(map[string]interface{})
+
 	//check params
 	if len(dag) == 0 {
 		return nil
