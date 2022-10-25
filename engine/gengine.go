@@ -3,10 +3,11 @@ package engine
 import (
 	"errors"
 	"fmt"
-	"github.com/bilibili/gengine/builder"
-	"github.com/bilibili/gengine/internal/base"
 	"sort"
 	"sync"
+
+	"github.com/bilibili/gengine/builder"
+	"github.com/bilibili/gengine/internal/base"
 
 	"github.com/google/martian/log"
 )
@@ -17,7 +18,9 @@ type Gengine struct {
 }
 
 func NewGengine() *Gengine {
-	return &Gengine{}
+	return &Gengine{
+		returnResult: make(map[string]interface{}),
+	}
 }
 
 type Stag struct {
@@ -34,7 +37,8 @@ func (g *Gengine) GetRulesResultMap() (map[string]interface{}, error) {
 	return g.returnResult, nil
 }
 
-/**
+/*
+*
 sort execute model
 
 when b is true it means when there are many rules， if one rule execute error，continue to execute rules after the occur error rule
@@ -74,7 +78,8 @@ func (g *Gengine) Execute(rb *builder.RuleBuilder, b bool) error {
 	return nil
 }
 
-/**
+/*
+*
 sort execute model
 
 when b is true it means when there are many rules， if one rule execute error，continue to execute rules after the occur error rule;
@@ -125,8 +130,8 @@ func (g *Gengine) ExecuteWithStopTagDirect(rb *builder.RuleBuilder, b bool, sTag
 }
 
 /*
- concurrent execute model
- in this mode, it will not consider the priority  and not consider err control
+concurrent execute model
+in this mode, it will not consider the priority  and not consider err control
 */
 func (g *Gengine) ExecuteConcurrent(rb *builder.RuleBuilder) error {
 
@@ -170,10 +175,10 @@ func (g *Gengine) ExecuteConcurrent(rb *builder.RuleBuilder) error {
 }
 
 /*
- mix model to execute rules
+mix model to execute rules
 
- in this mode, it will not consider the priority，and it also concurrently to execute rules
- first to execute the most high priority rule，then concurrently to execute last rules without consider the priority
+in this mode, it will not consider the priority，and it also concurrently to execute rules
+first to execute the most high priority rule，then concurrently to execute last rules without consider the priority
 */
 func (g *Gengine) ExecuteMixModel(rb *builder.RuleBuilder) error {
 
@@ -228,8 +233,10 @@ func (g *Gengine) ExecuteMixModel(rb *builder.RuleBuilder) error {
 	return nil
 }
 
-/**
- mix execute model
+/*
+*
+
+	mix execute model
 
 base type :golang translate value
 not base type: golang translate pointer
@@ -239,7 +246,6 @@ stopTag is a name given by user, and user can use it  to control rules execute b
 
 it used in this scene:
 where the first rule execute finished, you don't want to execute to the last rules, you can use sTag to control it out of gengine
-
 */
 func (g *Gengine) ExecuteMixModelWithStopTagDirect(rb *builder.RuleBuilder, sTag *Stag) error {
 
@@ -295,7 +301,8 @@ func (g *Gengine) ExecuteMixModelWithStopTagDirect(rb *builder.RuleBuilder, sTag
 	return nil
 }
 
-/**
+/*
+*
 user can choose specified name rules to run with sort, and it will continue to execute the last rules,even if there rule execute error
 */
 func (g *Gengine) ExecuteSelectedRules(rb *builder.RuleBuilder, names []string) error {
@@ -349,7 +356,8 @@ func (g *Gengine) ExecuteSelectedRules(rb *builder.RuleBuilder, names []string) 
 	return nil
 }
 
-/**
+/*
+*
 user can choose specified name rules to run with sort
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 */
@@ -408,7 +416,8 @@ func (g *Gengine) ExecuteSelectedRulesWithControl(rb *builder.RuleBuilder, b boo
 	return nil
 }
 
-/**
+/*
+*
 user can choose specified name rules to run with given sorted name
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 
@@ -463,7 +472,8 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAsGivenSortedName(rb *builder.R
 	return nil
 }
 
-/**
+/*
+*
 user can choose specified name rules to run with sort
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 */
@@ -526,7 +536,8 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTag(rb *builder.RuleBuil
 	return nil
 }
 
-/**
+/*
+*
 user can choose specified name rules to run with given sorted name
 b bool:control whether continue to execute last rules ,when a rule execute error; if b == true ,the func is same to ExecuteSelectedRules
 
@@ -585,7 +596,8 @@ func (g *Gengine) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(rb 
 	return nil
 }
 
-/**
+/*
+*
 user can choose specified name rules to concurrent run
 */
 func (g *Gengine) ExecuteSelectedRulesConcurrent(rb *builder.RuleBuilder, names []string) error {
@@ -655,7 +667,8 @@ func (g *Gengine) ExecuteSelectedRulesConcurrent(rb *builder.RuleBuilder, names 
 	return nil
 }
 
-/**
+/*
+*
 user can choose specified name rules to run with mix model
 */
 func (g *Gengine) ExecuteSelectedRulesMixModel(rb *builder.RuleBuilder, names []string) error {
@@ -750,7 +763,7 @@ func (g *Gengine) ExecuteSelectedRulesMixModel(rb *builder.RuleBuilder, names []
 	return nil
 }
 
-//inverse mix model
+// inverse mix model
 func (g *Gengine) ExecuteInverseMixModel(rb *builder.RuleBuilder) error {
 	//check rb
 	if rb == nil {
@@ -811,7 +824,7 @@ func (g *Gengine) ExecuteInverseMixModel(rb *builder.RuleBuilder) error {
 	return e
 }
 
-//inverse mix model with user selected
+// inverse mix model with user selected
 func (g *Gengine) ExecuteSelectedRulesInverseMixModel(rb *builder.RuleBuilder, names []string) error {
 	//check rb
 	if rb == nil {
@@ -888,7 +901,9 @@ func (g *Gengine) ExecuteSelectedRulesInverseMixModel(rb *builder.RuleBuilder, n
 
 // 1.first n piece rules to sort execute based on priority
 // 2.bool b means: when in sort execute stage,if a rule execute error whether continue to execute the last all rules,
-//   if b == true, means continue, if false, means stop and return
+//
+//	if b == true, means continue, if false, means stop and return
+//
 // 3.then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteNSortMConcurrent(nSort, mConcurrent int, rb *builder.RuleBuilder, b bool) error {
 
@@ -959,10 +974,10 @@ func (g *Gengine) ExecuteNSortMConcurrent(nSort, mConcurrent int, rb *builder.Ru
 	return nil
 }
 
-// 1. first n piece rules to concurrent execute based without priority
-// 2. bool b means: after concurrent execute stage,if a rule execute error whether continue to execute the last all rules,
-//    if b == true, means continue, if false, means stop and return
-// 3. then m piece rules to sort execute based on priority
+//  1. first n piece rules to concurrent execute based without priority
+//  2. bool b means: after concurrent execute stage,if a rule execute error whether continue to execute the last all rules,
+//     if b == true, means continue, if false, means stop and return
+//  3. then m piece rules to sort execute based on priority
 func (g *Gengine) ExecuteNConcurrentMSort(nConcurrent, mSort int, rb *builder.RuleBuilder, b bool) error {
 	//check rb
 	if rb == nil {
@@ -1037,10 +1052,10 @@ func (g *Gengine) ExecuteNConcurrentMSort(nConcurrent, mSort int, rb *builder.Ru
 	return nil
 }
 
-// 1. first n piece rules to concurrent execute based without priority
-// 2. bool b means: if the first stage executed error, whether continue to execute the next concurrent stage
-//    if b == true,   means continue, if false, means stop and return
-// 3. then m piece rules to concurrent execute based without priority
+//  1. first n piece rules to concurrent execute based without priority
+//  2. bool b means: if the first stage executed error, whether continue to execute the next concurrent stage
+//     if b == true,   means continue, if false, means stop and return
+//  3. then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteNConcurrentMConcurrent(nConcurrent, mConcurrent int, rb *builder.RuleBuilder, b bool) error {
 
 	//check rb
@@ -1124,7 +1139,9 @@ func (g *Gengine) ExecuteNConcurrentMConcurrent(nConcurrent, mConcurrent int, rb
 // 0.based on selected rules
 // 1.first n piece rules to sort execute based on priority
 // 2.bool b means: when in sort execute stage,if a rule execute error whether continue to execute the last all rules,
-//   if b == true, means continue, if false, means stop and return
+//
+//	if b == true, means continue, if false, means stop and return
+//
 // 3.then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteSelectedNSortMConcurrent(nSort, mConcurrent int, rb *builder.RuleBuilder, b bool, names []string) error {
 
@@ -1214,11 +1231,11 @@ func (g *Gengine) ExecuteSelectedNSortMConcurrent(nSort, mConcurrent int, rb *bu
 	return nil
 }
 
-// 0. based on selected rules
-// 1. first n piece rules to concurrent execute based without priority
-// 2. bool b means: after concurrent execute stage,if a rule execute error whether continue to execute the last all rules,
-//    if b == true, means continue, if false, means stop and return
-// 3. then m piece rules to sort execute based on priority
+//  0. based on selected rules
+//  1. first n piece rules to concurrent execute based without priority
+//  2. bool b means: after concurrent execute stage,if a rule execute error whether continue to execute the last all rules,
+//     if b == true, means continue, if false, means stop and return
+//  3. then m piece rules to sort execute based on priority
 func (g *Gengine) ExecuteSelectedNConcurrentMSort(nConcurrent, mSort int, rb *builder.RuleBuilder, b bool, names []string) error {
 
 	//check rb
@@ -1314,10 +1331,10 @@ func (g *Gengine) ExecuteSelectedNConcurrentMSort(nConcurrent, mSort int, rb *bu
 }
 
 // based on selected rules
-// 1. first n piece rules to concurrent execute based without priority
-// 2. bool b means: if the first stage executed error, whether continue to execute the next concurrent stage
-//    if b == true,   means continue, if false, means stop and return
-// 3. then m piece rules to concurrent execute based without priority
+//  1. first n piece rules to concurrent execute based without priority
+//  2. bool b means: if the first stage executed error, whether continue to execute the next concurrent stage
+//     if b == true,   means continue, if false, means stop and return
+//  3. then m piece rules to concurrent execute based without priority
 func (g *Gengine) ExecuteSelectedNConcurrentMConcurrent(nConcurrent, mConcurrent int, rb *builder.RuleBuilder, b bool, names []string) error {
 
 	//check rb
@@ -1417,7 +1434,7 @@ func (g *Gengine) ExecuteSelectedNConcurrentMConcurrent(nConcurrent, mConcurrent
 	return nil
 }
 
-//DAG model
+// DAG model
 func (g *Gengine) ExecuteDAGModel(rb *builder.RuleBuilder, dag [][]string) error {
 
 	//check rb
