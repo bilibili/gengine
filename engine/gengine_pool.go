@@ -3,14 +3,15 @@ package engine
 import (
 	"errors"
 	"fmt"
-	"github.com/antlr/antlr4/runtime/Go/antlr"
+	"sync"
+
+	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/bilibili/gengine/builder"
 	"github.com/bilibili/gengine/context"
 	"github.com/bilibili/gengine/internal/base"
 	parser "github.com/bilibili/gengine/internal/iantlr/alr"
 	"github.com/bilibili/gengine/internal/iparser"
 	"github.com/bilibili/gengine/internal/tool"
-	"sync"
 
 	"github.com/google/martian/log"
 )
@@ -131,7 +132,7 @@ func NewGenginePool(poolMinLen, poolMaxLen int64, em int, rulesStr string, apiOu
 	return p, nil
 }
 
-//this could ensure make thread safety!
+// this could ensure make thread safety!
 func makeRuleBuilder(ruleStr string, apiOuter map[string]interface{}) (*builder.RuleBuilder, error) {
 	dataContext := context.NewDataContext()
 	if apiOuter != nil {
@@ -157,27 +158,30 @@ func (gp *GenginePool) getGengine() (*gengineWrapper, error) {
 	for {
 		gp.getEngineLock.Lock()
 		//check if there has enough resource in pool
+		gp.runningLock.Lock()
 		numFree := len(gp.freeGengines)
 		if numFree > 0 {
-			gp.runningLock.Lock()
 			gw := gp.freeGengines[0]
+			gp.freeGengines[0] = nil
 			gp.freeGengines = gp.freeGengines[1:]
 			gp.runningLock.Unlock()
 			gp.getEngineLock.Unlock()
 			return gw, nil
 		}
+		gp.runningLock.Unlock()
 
 		//check if there has addition resource
+		gp.additionLock.Lock()
 		numAddition := len(gp.additionGengines)
 		if numAddition > 0 {
-			gp.additionLock.Lock()
 			gw := gp.additionGengines[0]
+			gp.additionGengines[0] = nil
 			gp.additionGengines = gp.additionGengines[1:]
 			gp.additionLock.Unlock()
 			gp.getEngineLock.Unlock()
 			return gw, nil
 		}
-
+		gp.additionLock.Unlock()
 		gp.getEngineLock.Unlock()
 	}
 }
@@ -198,13 +202,13 @@ func (gp *GenginePool) putGengineLocked(gw *gengineWrapper) {
 	}()
 }
 
-//sync method
-//update the all rules in all engine in the pool
-//update success: return nil
-//update failed: return error
+// sync method
+// update the all rules in all engine in the pool
+// update success: return nil
+// update failed: return error
 // this is very different from connection pool,
-//connection pool just need to init once
-//while gengine pool need to update the rules whenever the user want to init
+// connection pool just need to init once
+// while gengine pool need to update the rules whenever the user want to init
 func (gp *GenginePool) UpdatePooledRules(ruleStr string) error {
 	//check the rules
 	gp.updateLock.Lock()
@@ -332,13 +336,13 @@ func updateIncremental(kc *base.KnowledgeContext, rb *builder.RuleBuilder) {
 	rb.Kc.SortRules = newSortRules
 }
 
-//sync method
-//incremental update the rules in all engine in the pool
-//incremental update success: return nil
-//incremental update failed: return error
+// sync method
+// incremental update the rules in all engine in the pool
+// incremental update success: return nil
+// incremental update failed: return error
 // if a rule already exists, this method will use the new rule to replace the old one
 // if a rule doesn't exist, this method will add the new rule to the existed rules list
-//see: func (builder *RuleBuilder)BuildRuleWithIncremental(ruleString string) in rule_builder.go
+// see: func (builder *RuleBuilder)BuildRuleWithIncremental(ruleString string) in rule_builder.go
 func (gp *GenginePool) UpdatePooledRulesIncremental(ruleStr string) error {
 	gp.updateLock.Lock()
 	defer gp.updateLock.Unlock()
@@ -361,7 +365,7 @@ func (gp *GenginePool) UpdatePooledRulesIncremental(ruleStr string) error {
 	return nil
 }
 
-//clear all rules in engine in pool
+// clear all rules in engine in pool
 func (gp *GenginePool) ClearPoolRules() {
 	gp.updateLock.Lock()
 	defer gp.updateLock.Unlock()
@@ -372,7 +376,7 @@ func (gp *GenginePool) ClearPoolRules() {
 	}
 }
 
-//remove rules
+// remove rules
 func (gp *GenginePool) RemoveRules(ruleNames []string) error {
 	gp.updateLock.Lock()
 	defer gp.updateLock.Unlock()
@@ -388,11 +392,11 @@ func (gp *GenginePool) RemoveRules(ruleNames []string) error {
 	return nil
 }
 
-//plugin_exportName_apiName.so
+// plugin_exportName_apiName.so
 // _ is a separator
-//plugin is prefix
-//exportName is user export in plugin file
-//apiName is plugin used in gengine
+// plugin is prefix
+// exportName is user export in plugin file
+// apiName is plugin used in gengine
 func (gp *GenginePool) PluginLoader(absolutePathOfSO string) error {
 	gp.updateLock.Lock()
 	defer gp.updateLock.Unlock()
@@ -425,12 +429,12 @@ func (gp *GenginePool) SetExecModel(execModel int) error {
 	return nil
 }
 
-//get the execute model the user set
+// get the execute model the user set
 func (gp *GenginePool) GetExecModel() int {
 	return gp.execModel
 }
 
-//check the rule whether exist
+// check the rule whether exist
 func (gp *GenginePool) IsExist(ruleNames []string) []bool {
 	gp.updateLock.Lock()
 	defer gp.updateLock.Unlock()
@@ -455,7 +459,7 @@ func (gp *GenginePool) IsExist(ruleNames []string) []bool {
 	return exist
 }
 
-//get the rule's salience
+// get the rule's salience
 func (gp *GenginePool) GetRuleSalience(ruleName string) (int64, error) {
 	gp.updateLock.Lock()
 	defer gp.updateLock.Unlock()
@@ -471,7 +475,7 @@ func (gp *GenginePool) GetRuleSalience(ruleName string) (int64, error) {
 	}
 }
 
-//get the rule's description
+// get the rule's description
 func (gp *GenginePool) GetRuleDesc(ruleName string) (string, error) {
 	gp.updateLock.Lock()
 	defer gp.updateLock.Unlock()
@@ -538,9 +542,9 @@ func (gp *GenginePool) prepareWithMultiInput(data map[string]interface{}) (*geng
 	return gw, nil
 }
 
-//execute rules as the user set execute model when init or update
-//req, it is better to be ptr, or you will not get changed data
-//resp, it is better to be ptr, or you will not get changed data
+// execute rules as the user set execute model when init or update
+// req, it is better to be ptr, or you will not get changed data
+// resp, it is better to be ptr, or you will not get changed data
 // the return map[string]interface{} collection each rule returned result
 func (gp *GenginePool) ExecuteRulesWithSpecifiedEM(reqName string, req interface{}, respName string, resp interface{}) (error, map[string]interface{}) {
 
@@ -589,7 +593,8 @@ func (gp *GenginePool) ExecuteRulesWithSpecifiedEM(reqName string, req interface
 	return nil, returnResultMap
 }
 
-/**
+/*
+*
 user can input more data to use in engine
 it is no difference with ExecuteRules, you just can inject more data use this api
 
@@ -643,7 +648,8 @@ func (gp *GenginePool) ExecuteRulesWithMultiInputWithSpecifiedEM(data map[string
 
 }
 
-/***
+/*
+**
 this make user could use exemodel to control the select-exemodel
 
 the return map[string]interface{} collection each rule returned result
@@ -743,7 +749,7 @@ func (gp *GenginePool) ExecuteWithStopTagDirect(data map[string]interface{}, b b
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteConcurrent
+// see gengine.go ExecuteConcurrent
 func (gp *GenginePool) ExecuteConcurrent(data map[string]interface{}) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
@@ -791,7 +797,7 @@ func (gp *GenginePool) ExecuteMixModel(data map[string]interface{}) (error, map[
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteMixModelWithStopTagDirect
+// see gengine.go ExecuteMixModelWithStopTagDirect
 func (gp *GenginePool) ExecuteMixModelWithStopTagDirect(data map[string]interface{}, sTag *Stag) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
@@ -840,7 +846,7 @@ func (gp *GenginePool) ExecuteSelectedRules(data map[string]interface{}, names [
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesWithControl
+// see gengine.go ExecuteSelectedRulesWithControl
 func (gp *GenginePool) ExecuteSelectedRulesWithControl(data map[string]interface{}, b bool, names []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
@@ -864,7 +870,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControl(data map[string]interface
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesWithControlAsGivenSortedName
+// see gengine.go ExecuteSelectedRulesWithControlAsGivenSortedName
 func (gp *GenginePool) ExecuteSelectedRulesWithControlAsGivenSortedName(data map[string]interface{}, b bool, sortedNames []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
@@ -888,7 +894,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAsGivenSortedName(data map
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesWithControlAndStopTag
+// see gengine.go ExecuteSelectedRulesWithControlAndStopTag
 func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTag(data map[string]interface{}, b bool, sTag *Stag, names []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
@@ -912,7 +918,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTag(data map[string
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName
+// see gengine.go ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName
 func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedName(data map[string]interface{}, b bool, sTag *Stag, sortedNames []string) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
@@ -936,7 +942,7 @@ func (gp *GenginePool) ExecuteSelectedRulesWithControlAndStopTagAsGivenSortedNam
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesConcurrent
+// see gengine.go ExecuteSelectedRulesConcurrent
 func (gp *GenginePool) ExecuteSelectedRulesConcurrent(data map[string]interface{}, names []string) (error, map[string]interface{}) {
 
 	returnResultMap := make(map[string]interface{})
@@ -961,7 +967,7 @@ func (gp *GenginePool) ExecuteSelectedRulesConcurrent(data map[string]interface{
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteSelectedRulesMixModel
+// see gengine.go ExecuteSelectedRulesMixModel
 func (gp *GenginePool) ExecuteSelectedRulesMixModel(data map[string]interface{}, names []string) (error, map[string]interface{}) {
 
 	returnResultMap := make(map[string]interface{})
@@ -1012,7 +1018,7 @@ func (gp *GenginePool) ExecuteInverseMixModel(data map[string]interface{}) (erro
 
 }
 
-//see gengine.go ExecuteSelectedRulesInverseMixModel
+// see gengine.go ExecuteSelectedRulesInverseMixModel
 func (gp *GenginePool) ExecuteSelectedRulesInverseMixModel(data map[string]interface{}, names []string) (error, map[string]interface{}) {
 
 	returnResultMap := make(map[string]interface{})
@@ -1086,7 +1092,7 @@ func (gp *GenginePool) ExecuteNConcurrentMSort(nSort, mConcurrent int, b bool, d
 	return e, returnResultMap
 }
 
-//see gengine.go ExecuteNConcurrentMConcurrent
+// see gengine.go ExecuteNConcurrentMConcurrent
 func (gp *GenginePool) ExecuteNConcurrentMConcurrent(nSort, mConcurrent int, b bool, data map[string]interface{}) (error, map[string]interface{}) {
 	returnResultMap := make(map[string]interface{})
 	//rules has bean cleared
