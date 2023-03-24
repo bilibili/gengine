@@ -26,7 +26,7 @@
 
 ## use
 - please use the newest version!
-- go mod or go vendo, go mod:
+- go mod or go vendor, go mod:
 ```go
 require github.com/bilibili/gengine v1.5.7
 ```
