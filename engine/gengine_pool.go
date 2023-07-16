@@ -216,7 +216,7 @@ func (gp *GenginePool) UpdatePooledRules(ruleStr string) error {
 	}
 
 	if len(rbi.Kc.RuleEntities) == 0 {
-		return errors.New(fmt.Sprintf("if you want to clear all rules, use method \"pool.ClearPoolRules()\""))
+		return errors.New("if you want to clear all rules, use method \"pool.ClearPoolRules()\"")
 	}
 
 	gp.ruleBuilder = rbi
@@ -253,7 +253,7 @@ func getKc(ruleString string) (*base.KnowledgeContext, error) {
 	}
 
 	if len(kc.RuleEntities) == 0 {
-		return nil, errors.New(fmt.Sprintf("no rules to update or add."))
+		return nil, errors.New("no rules to update or add.")
 	}
 
 	return kc, nil

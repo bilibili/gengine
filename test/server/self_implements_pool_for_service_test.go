@@ -31,12 +31,12 @@ type MySelfService struct {
 //请确保注入的API是线程安全的
 func NewService(iNum int, ruleStr string, apiOuter map[string]interface{}) *MySelfService {
 	if iNum < 1 {
-		panic(fmt.Sprintf("engines' number should be bigger than 0!"))
+		panic("engines' number should be bigger than 0!")
 	}
 
 	//这个长度，使用者自己看着写
 	if len(ruleStr) < 1 {
-		panic(fmt.Sprintf("rules len is 0"))
+		panic("rules len is 0")
 	}
 
 	enginesChan := make(chan *IEngine, iNum)

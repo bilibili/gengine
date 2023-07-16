@@ -129,7 +129,7 @@ func (builder *RuleBuilder) BuildRuleWithIncremental(ruleString string) error {
 	}
 
 	if len(kc.RuleEntities) == 0 {
-		return errors.New(fmt.Sprintf("no rules need to update or add."))
+		return errors.New("no rules need to update or add.")
 	}
 
 	//copy
@@ -212,7 +212,7 @@ func (builder *RuleBuilder) RemoveRules(ruleNames []string) error {
 	defer builder.buildLock.Unlock()
 
 	if len(ruleNames) == 0 {
-		return errors.New(fmt.Sprintf("no rules need to be remove! "))
+		return errors.New("no rules need to be remove! ")
 	}
 
 	newRuleEntities := make(map[string]*base.RuleEntity)
